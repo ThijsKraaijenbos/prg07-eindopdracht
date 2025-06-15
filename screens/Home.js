@@ -7,33 +7,46 @@ import {useFocusEffect} from "@react-navigation/native";
 
 export default function Home({ route }) {
 
+    const [timeValue, setTimeValue] = useState("")
+    const [nameValue, setNameValue] = useState("")
+
     useFocusEffect(
         useCallback(() => {
+            async function fetchData() {
+                try {
+                    const name = await AsyncStorage.getItem('username');
+                    if (name !== null) {
+                        setNameValue(JSON.parse(name))
+                    }
+                } catch (e) {
+                    console.log(e)
+                }
+            }
 
+            fetchData()
+            getTime()
         }, [])
     )
 
     //return appropriate message depending on time of day
     function getTime() {
         let hours = new Date().getHours();
-        let res = ""
         if (hours < 6) {
-            res = "nacht"
+            setTimeValue("nacht")
         } else if (hours < 12) {
-            res = "morgen"
+            setTimeValue("morgen")
         } else if (hours < 18) {
-            res = "middag"
+            setTimeValue("middag")
         } else if (hours < 24) {
-            res = "avond"
+            setTimeValue("navond")
         }
-        return res
     }
 
 
     return (
         <SafeAreaProvider style={{height: 100, flexDirection: 'row'}}>
             <SafeAreaView>
-                <H1>Goede{getTime()},</H1>
+                <H1>Goede{timeValue}, {nameValue}</H1>
             </SafeAreaView>
         </SafeAreaProvider>
     );

@@ -16,14 +16,15 @@ export default function Settings({ route }) {
             async function fetchData() {
                 try {
                     const name = await AsyncStorage.getItem('username');
-                    setNameValue("user")
                     if (name !== null) {
-                        setNameValue(name)
+                        setNameValue(JSON.parse(name))
                     }
                 } catch (e) {
                     console.log(e)
                 }
             }
+
+            fetchData()
         }, [])
     )
 
