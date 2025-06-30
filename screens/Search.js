@@ -4,7 +4,7 @@ import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 
 export default function Search({ route }) {
     return (
-        <SafeAreaProvider>
+        <SafeAreaProvider style={{backgroundColor: "#252525"}}>
             <SafeAreaView style={{height: 100, flexDirection: 'row'}}>
                 <Text>Search</Text>
             </SafeAreaView>

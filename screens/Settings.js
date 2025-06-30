@@ -43,7 +43,7 @@ export default function Settings({ route }) {
     }
 
     return (
-        <SafeAreaProvider>
+        <SafeAreaProvider style={{backgroundColor: "#252525"}}>
             <SafeAreaView style={{height: 100, flexDirection: 'row'}}>
                 <TextInput
                     style={styles.textInput}
