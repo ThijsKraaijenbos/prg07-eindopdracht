@@ -5,29 +5,42 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './screens/Home.js';
 import Settings from './screens/Settings.js';
 import Search from './screens/Search.js';
-import { View, Dimensions, StyleSheet } from 'react-native';
+import {View, Dimensions, StyleSheet, Keyboard} from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import {LinearGradient} from "expo-linear-gradient";
 import {useFonts} from "expo-font";
 import {Urbanist_700Bold} from "@expo-google-fonts/urbanist/700Bold";
 import {Urbanist_500Medium, Urbanist_600SemiBold} from "@expo-google-fonts/urbanist";
+import {useEffect, useState} from "react";
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const TAB_BAR_WIDTH = SCREEN_WIDTH * 0.75;
+const { width: screenWidth } = Dimensions.get('window');
+const tabBarWidth = screenWidth * 0.75;
 
 function BottomTabs() {
+    const [keyboardVisible, setKeyboardVisible] = useState(false);
+
+    useEffect(() => {
+         Keyboard.addListener('keyboardDidShow', () => {
+            setKeyboardVisible(true);
+        });
+        Keyboard.addListener('keyboardDidHide', () => {
+            setKeyboardVisible(false);
+        });
+    }, []);
+
     return (
         <View style={{ flex: 1,}}>
             <LinearGradient
-                colors={['hsla(0 0% 35% / 100)', 'hsla(0 0% 35% / 0)']}
+                colors={['hsla(0 0% 35% / 100)', 'transparent', 'transparent']}
                 style={{
                     position: 'absolute',
-                    bottom: 15,
-                    width: TAB_BAR_WIDTH + 4,
+                    bottom: keyboardVisible ? -100 : 15,
+                    width: tabBarWidth + 2,
                     height: 64,
-                    transform: [{ translateX: SCREEN_WIDTH / 2 - TAB_BAR_WIDTH / 2 - 2 }],
+                    transform: [{ translateX: screenWidth / 2 - tabBarWidth / 2 - 1 }],
                     borderRadius: 100,
                     zIndex:1,
                 }}
@@ -35,18 +48,19 @@ function BottomTabs() {
 
             <Tab.Navigator
                 screenOptions={{
+                    tabBarHideOnKeyboard: true,
                     tabBarShowLabel: false,
                     tabBarStyle: {
                         position: 'absolute',
-                        bottom: 15,
-                        width: TAB_BAR_WIDTH,
-                        transform: [{ translateX: SCREEN_WIDTH / 2 - TAB_BAR_WIDTH / 2 }],
+                        bottom: keyboardVisible ? -100 : 15,
+                        width: tabBarWidth,
+                        transform: [{ translateX: screenWidth / 2 - tabBarWidth / 2 }],
                         height: 62,
                         backgroundColor: 'hsla(0 0% 20% / 1)',
                         borderRadius: 100,
                         overflow: 'hidden',
                         paddingTop: 12,
-                        elevation: 1,
+                        boxShadow: '0 5 5 0 rgba(0,0,0,0.2)', //shadows look a little weird in the emulator
                         zIndex: 1, // keep tab bar above gradient
                         borderColor: "transparent"
                     },

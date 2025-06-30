@@ -5,6 +5,7 @@ import {useEffect, useState} from 'react';
 import {Pressable, TextInput, Text, StyleSheet, Switch} from "react-native";
 import {useFocusEffect} from "@react-navigation/native";
 import {useCallback} from "react"
+import InputField from "../components/InputField";
 
 export default function Settings({ route }) {
     const [nameValue, setNameValue] = useState('');
@@ -46,12 +47,7 @@ export default function Settings({ route }) {
     return (
         <SafeAreaProvider style={{backgroundColor: "#252525"}}>
             <SafeAreaView style={{height: 100, flexDirection: 'row'}}>
-                <TextInput
-                    style={styles.textInput}
-                    onChangeText={text => setNameValue(text)}
-                    placeholder="name"
-                    value={nameValue}
-                />
+                <InputField placeholderText={"Naam"}></InputField>
                 <Switch
                     trackColor={{false: '#767577', true: '#81b0ff'}}
                     thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
