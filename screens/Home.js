@@ -68,9 +68,9 @@ export default function Home({ route }) {
                         />
                     </Svg>
                     <TextInput
-                        style={styles.input}
+                        style={[styles.input]}
                         onChangeText={search}
-                        placeholder="Zoek een locatie"
+                        placeholder="Zoek een locatie..."
                         placeholderTextColor="hsl(45 15% 80%)"
                     />
                 </View>
@@ -87,9 +87,15 @@ const styles = StyleSheet.create({
         color: 'hsl(45 100% 95%)',
     },
     textMedium: {
+        fontFamily: 'Urbanist_500Medium',
+        fontSize: 24
+    },
+    textSemiBold: {
+        fontFamily: 'Urbanist_600SemiBold',
         fontSize: 24
     },
     textLarge: {
+        fontFamily: 'Urbanist_700Bold',
         fontSize: 32
     },
 
@@ -106,6 +112,9 @@ const styles = StyleSheet.create({
     },
 
     input: {
+        color: "hsl(45 15% 80%)",
+        fontFamily: 'Urbanist_500Medium',
+        fontSize: 16,
         height: 40,
         padding: 10,
     },

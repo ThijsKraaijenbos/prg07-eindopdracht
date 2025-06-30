@@ -8,6 +8,9 @@ import Search from './screens/Search.js';
 import { View, Dimensions, StyleSheet } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import {LinearGradient} from "expo-linear-gradient";
+import {useFonts} from "expo-font";
+import {Urbanist_700Bold} from "@expo-google-fonts/urbanist/700Bold";
+import {Urbanist_500Medium, Urbanist_600SemiBold} from "@expo-google-fonts/urbanist";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -159,6 +162,16 @@ function RootStack() {
 }
 
 export default function App() {
+    const [fontsLoaded] = useFonts({
+        Urbanist_500Medium,
+        Urbanist_600SemiBold,
+        Urbanist_700Bold,
+    });
+
+    if (!fontsLoaded) {
+        return null;
+    }
+
     return (
         <NavigationContainer>
             <RootStack />
