@@ -37,6 +37,7 @@ export default function Settings({ route }) {
             if (result !== null) {
                 console.log(`Result = ${result} & jsonValue = ${jsonValue}` )
             }
+
         } catch (e) {
             console.log(e)
         }
