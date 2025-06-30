@@ -44,7 +44,7 @@ export default function Home({ route }) {
 
 
     return (
-        <SafeAreaProvider style={{height: 100, flexDirection: 'row'}}>
+        <SafeAreaProvider style={{height: 100, flexDirection: 'row', backgroundColor: "#252525"}}>
             <SafeAreaView>
                 <H1>Goede{timeValue}, {nameValue}</H1>
             </SafeAreaView>

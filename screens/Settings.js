@@ -2,14 +2,16 @@ import React from 'react';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {useEffect, useState} from 'react';
-import {Pressable, TextInput, Text, StyleSheet} from "react-native";
+import {Pressable, TextInput, Text, StyleSheet, Switch} from "react-native";
 import {useFocusEffect} from "@react-navigation/native";
 import {useCallback} from "react"
 
 export default function Settings({ route }) {
     const [nameValue, setNameValue] = useState('');
+    const [isEnabled, setIsEnabled] = useState(false);
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
-    useFocusEffect(
+        useFocusEffect(
         useCallback( () => {
             //nested with an async like this because react native gives a warning
             //when I do useCallback( async()
@@ -48,6 +50,13 @@ export default function Settings({ route }) {
                     onChangeText={text => setNameValue(text)}
                     placeholder="name"
                     value={nameValue}
+                />
+                <Switch
+                    trackColor={{false: '#767577', true: '#81b0ff'}}
+                    thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch}
+                    value={isEnabled}
                 />
                 <Pressable title={"Opslaan"} onPress={onSave}>
                     <Text style={styles.button}>Opslaan</Text>
