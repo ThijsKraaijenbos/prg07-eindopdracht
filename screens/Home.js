@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {Text, StyleSheet, TextInput, View} from 'react-native';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -9,11 +9,13 @@ import Svg, {Path} from "react-native-svg";
 import DividerComponent from "../components/DividerComponent";
 import ListContainer from "../components/ListContainer";
 import InputField from "../components/InputField";
+import {DarkModeContext} from "../context/DarkModeContext";
 
-export default function Home({ route }) {
+export default function Home() {
 
     const [timeValue, setTimeValue] = useState("")
     const [nameValue, setNameValue] = useState("")
+    const {isDarkMode} = useContext(DarkModeContext);
 
     useFocusEffect(
         useCallback(() => {
@@ -51,13 +53,13 @@ export default function Home({ route }) {
     }
 
     return (
-        <SafeAreaProvider style={{height: 100, flexDirection: 'row', backgroundColor: "#252525", paddingLeft: 16, paddingTop:8, paddingRight: 16}}>
+        <SafeAreaProvider style={{height: 100, flexDirection: 'row', backgroundColor: "hsl(0, 0%, 15%)", paddingLeft: 16, paddingTop:8, paddingRight: 16}}>
             <LinearGradient
                 colors={['hsl(0 0% 25%)', 'hsla(0 0% 0% / 0)']}
                 style={[StyleSheet.absoluteFill, {height: 136}]}
             />
             <SafeAreaView>
-                <Text style={[styles.textMedium, styles.textMuted, {marginLeft: 8}]}>{timeValue}, {nameValue}</Text>
+                <Text style={[styles.textMedium, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}, {marginLeft: 8}]}>{timeValue}, {nameValue}</Text>
 
                 <InputField placeholderText={"Zoek een locatie..."}>
                     <Svg width={36} height={36} viewBox="0 0 24 24">
@@ -69,11 +71,11 @@ export default function Home({ route }) {
                 </InputField>
                 <View style={styles.mainContentContainer}>
                     <DividerComponent />
-                    <Text style={[styles.text, styles.textSemiBold]}>Opgeslagen Locaties</Text>
+                    <Text style={[{color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}, styles.textSemiBold]}>Opgeslagen Locaties</Text>
                     <ListContainer></ListContainer>
 
                     <DividerComponent />
-                    <Text style={[styles.text, styles.textSemiBold]}>Aanbevolen Locaties</Text>
+                    <Text style={[{color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}, styles.textSemiBold]}>Aanbevolen Locaties</Text>
                     <ListContainer></ListContainer>
                 </View>
             </SafeAreaView>

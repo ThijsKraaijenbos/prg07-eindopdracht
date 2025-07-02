@@ -2,12 +2,7 @@ import {View, StyleSheet, TextInput} from 'react-native';
 import {LinearGradient} from "expo-linear-gradient";
 import React from "react";
 import Svg, {Path} from "react-native-svg";
-export default function InputField({placeholderText, children}) {
-
-	function search() {
-		console.log("searching brochacho")
-	}
-
+export default function InputField({placeholderText, children, onChange}) {
 	return (
 		<View style={styles.inputFieldWrapper}>
 
@@ -19,7 +14,7 @@ export default function InputField({placeholderText, children}) {
 				{children}
 				<TextInput
 					style={[styles.input]}
-					onChangeText={search}
+					onChangeText={onChange}
 					placeholder={placeholderText}
 					placeholderTextColor="hsl(45 15% 80%)"
 				/>

@@ -203,14 +203,14 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: "#252525"
+        backgroundColor: "hsl(0, 0%, 15%)"
     },
     loading : {
         flex: 1,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#252525"
+        backgroundColor: "hsl(0, 0%, 15%)"
     },
     map: {
         width: '110%',
