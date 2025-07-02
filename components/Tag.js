@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 		boxShadow: '0 5 5 0 rgba(0,0,0,0.2)', //shadows look a little weird in the emulator
 	},
 	tag: {
-		backgroundColor: 'hsl(0 0% 20%)',
+		backgroundColor: 'hsl(0 0% 25%)',
 		color: 'hsl(45 100% 95%)',
 		fontFamily: 'Urbanist_500Medium',
 		fontSize: 16,
