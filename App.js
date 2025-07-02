@@ -13,6 +13,7 @@ import {Urbanist_700Bold} from "@expo-google-fonts/urbanist/700Bold";
 import {Urbanist_500Medium, Urbanist_600SemiBold} from "@expo-google-fonts/urbanist";
 import {useContext, useEffect, useState} from "react";
 import {DarkModeContext, DarkModeContextProvider} from "./context/DarkModeContext";
+import Detail from "./screens/Detail";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -172,6 +173,11 @@ function RootStack() {
             <Stack.Screen
                 name="BottomTabs"
                 component={BottomTabs}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="Detail"
+                component={Detail}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>

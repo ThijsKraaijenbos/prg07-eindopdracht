@@ -1,14 +1,17 @@
 import {Text, StyleSheet, View} from 'react-native';
 import {LinearGradient} from "expo-linear-gradient";
-import React from "react";
+import React, {useContext} from "react";
+import {DarkModeContext} from "../context/DarkModeContext";
 export default function Tag({children}) {
+	const {isDarkMode} = useContext(DarkModeContext)
+
 	return (
 		<View style={styles.wrapper}>
 		<LinearGradient
-			colors={['hsl(0 0% 35%)', 'transparent', 'transparent']}
+			colors={isDarkMode ? ['hsl(0 0% 35%)', 'transparent', 'transparent'] : ['hsl(0 0% 100%)', 'transparent', 'transparent']}
 			style={styles.borderGradient}
 		/>
-		<Text style={styles.tag}>{children}</Text>
+		<Text style={[styles.tag, {backgroundColor: isDarkMode ? "hsl(0 0% 20%)" : "hsl(0 0% 90%)", color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{children}</Text>
 		</View>
 	);
 };
@@ -29,8 +32,6 @@ const styles = StyleSheet.create({
 		boxShadow: '0 5 5 0 rgba(0,0,0,0.2)', //shadows look a little weird in the emulator
 	},
 	tag: {
-		backgroundColor: 'hsl(0 0% 25%)',
-		color: 'hsl(45 100% 95%)',
 		fontFamily: 'Urbanist_500Medium',
 		fontSize: 16,
 		paddingHorizontal: 8,
