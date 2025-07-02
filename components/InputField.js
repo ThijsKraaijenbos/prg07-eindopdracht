@@ -13,7 +13,7 @@ export default function InputField({placeholderText, children}) {
 
 			<View style={styles.inputContainer}>
 				<LinearGradient
-					colors={['hsla(0 0% 35% / 100)', 'transparent', 'transparent']}
+					colors={['hsl(0 0% 35%)', 'transparent', 'transparent']}
 					style={styles.borderGradient}
 				/>
 				{children}
@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
 		flexDirection:"row",
 		alignItems: "center",
 		backgroundColor: 'hsl(0 0% 20%)',
-		boxShadow: '0 5 5 0 rgba(0,0,0,0.2)', //shadows look a little weird in the emulator
 		borderRadius: 100,
 		paddingRight: 12,
 		paddingLeft: 4,
@@ -55,6 +54,7 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		borderRadius: 100,
 		zIndex: -1,
+		boxShadow: '0 5 5 0 rgba(0,0,0,0.2)', //shadows look a little weird in the emulator
 	},
 
 	input: {
@@ -63,6 +63,6 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		height: 40,
 		padding: 10,
-		zIndex: 1
+		zIndex: 1,
 	},
 });

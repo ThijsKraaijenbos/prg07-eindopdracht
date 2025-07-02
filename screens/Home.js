@@ -53,7 +53,7 @@ export default function Home({ route }) {
     return (
         <SafeAreaProvider style={{height: 100, flexDirection: 'row', backgroundColor: "#252525", paddingLeft: 16, paddingTop:8, paddingRight: 16}}>
             <LinearGradient
-                colors={['hsla(0 0% 25% / 100)', 'hsla(0 0% 0% / 0)']}
+                colors={['hsl(0 0% 25%)', 'hsla(0 0% 0% / 0)']}
                 style={[StyleSheet.absoluteFill, {height: 136}]}
             />
             <SafeAreaView>
@@ -95,10 +95,6 @@ const styles = StyleSheet.create({
     textSemiBold: {
         fontFamily: 'Urbanist_600SemiBold',
         fontSize: 24
-    },
-    textLarge: {
-        fontFamily: 'Urbanist_700Bold',
-        fontSize: 32
     },
 
     mainContentContainer: {

@@ -19,6 +19,7 @@ const Tab = createBottomTabNavigator();
 const { width: screenWidth } = Dimensions.get('window');
 const tabBarWidth = screenWidth * 0.75;
 
+
 function BottomTabs() {
     const [keyboardVisible, setKeyboardVisible] = useState(false);
 
@@ -34,7 +35,7 @@ function BottomTabs() {
     return (
         <View style={{ flex: 1,}}>
             <LinearGradient
-                colors={['hsla(0 0% 35% / 100)', 'transparent', 'transparent']}
+                colors={['hsl(0 0% 35%)', 'transparent', 'transparent']}
                 style={{
                     position: 'absolute',
                     bottom: keyboardVisible ? -100 : 15,
@@ -56,12 +57,12 @@ function BottomTabs() {
                         width: tabBarWidth,
                         transform: [{ translateX: screenWidth / 2 - tabBarWidth / 2 }],
                         height: 62,
-                        backgroundColor: 'hsla(0 0% 20% / 1)',
+                        backgroundColor: 'hsl(0 0% 20%)',
                         borderRadius: 100,
                         overflow: 'hidden',
                         paddingTop: 12,
                         boxShadow: '0 5 5 0 rgba(0,0,0,0.2)', //shadows look a little weird in the emulator
-                        zIndex: 1, // keep tab bar above gradient
+                        zIndex: 5, // keep tab bar above gradient
                         borderColor: "transparent"
                     },
                     tabBarItemStyle: {

@@ -5,7 +5,7 @@ export default function ListContainer() {
 	return (
 		<View style={styles.listContainerWrapper}>
 			<LinearGradient
-				colors={['hsla(0 0% 35% / 100)', 'transparent', 'transparent']}
+				colors={['hsl(0 0% 35%)', 'transparent', 'transparent']}
 				style={styles.borderGradient}
 			/>
 			<ScrollView style={styles.listContainer}>
