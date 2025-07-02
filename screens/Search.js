@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import MapView, {Marker} from 'react-native-maps';
 import { useState, useEffect, useRef } from 'react';
 import {Text, View, StyleSheet, ActivityIndicator} from 'react-native';
 import darkMapStyle from '../assets/darkMapStyle.json';
+import lightMapStyle from '../assets/lightMapStyle.json';
 
 import * as Location from 'expo-location';
 import {useFocusEffect} from "@react-navigation/native";
@@ -10,6 +11,7 @@ import DividerComponent from "../components/DividerComponent";
 import Svg, {Path} from "react-native-svg";
 import Tag from "../components/Tag";
 import {LinearGradient} from "expo-linear-gradient";
+import {DarkModeContext} from "../context/DarkModeContext";
 
 export default function Search() {
     const [location, setLocation] = useState();
@@ -17,6 +19,7 @@ export default function Search() {
     const [errorMsg, setErrorMsg] = useState();
     const [markers, setMarkers] = useState([])
     const [selectedMarker, setSelectedMarker] = useState(null);
+    const {isDarkMode} = useContext(DarkModeContext)
 
     const watchId = useRef()
 
@@ -88,8 +91,8 @@ export default function Search() {
 
     if (loading === true) {
         return (
-            <View style={styles.loading}>
-                <Text style={[styles.text, styles.textLarge]}>Loading Location</Text>
+            <View style={[styles.loading, {backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)"}]}>
+                <Text style={[styles.textLarge, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Loading Location</Text>
                 <ActivityIndicator size={"large"}></ActivityIndicator>
             </View>
         )
@@ -100,7 +103,7 @@ export default function Search() {
             <MapView
                 userLocationPriority={"balanced"}
                 showsUserLocation={true}
-                customMapStyle={darkMapStyle}
+                customMapStyle={isDarkMode ? darkMapStyle : lightMapStyle}
                 initialRegion={
                     location
                         ? {
@@ -181,12 +184,6 @@ export default function Search() {
 }
 
 const styles = StyleSheet.create({
-    text: {
-        color: 'hsl(45 100% 95%)',
-    },
-    textMuted: {
-        color: 'hsl(45 15% 80%)',
-    },
     textMedium: {
         fontFamily: 'Urbanist_500Medium',
         fontSize: 24
@@ -210,7 +207,6 @@ const styles = StyleSheet.create({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "hsl(0, 0%, 15%)"
     },
     map: {
         width: '110%',

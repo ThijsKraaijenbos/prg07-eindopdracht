@@ -35,7 +35,7 @@ function BottomTabs() {
     }, []);
 
     return (
-        <View style={{ flex: 1,}}>
+        <View style={{ flex: 1}}>
             <LinearGradient
                 colors={isDarkMode ? ['hsl(0 0% 35%)', 'transparent', 'transparent'] : ['hsl(0 0% 100%)', 'transparent', 'transparent']}
                 style={{
@@ -64,7 +64,7 @@ function BottomTabs() {
                         overflow: 'hidden',
                         paddingTop: 12,
                         boxShadow: '0 5 5 0 rgba(0,0,0,0.2)', //shadows look a little weird in the emulator
-                        zIndex: 5, // keep tab bar above gradient
+                        zIndex: 5,
                         borderColor: "transparent"
                     },
                     tabBarItemStyle: {

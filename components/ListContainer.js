@@ -1,14 +1,16 @@
 import {View, StyleSheet, ScrollView, Text} from 'react-native';
 import {LinearGradient} from "expo-linear-gradient";
-import React from "react";
+import React, {useContext} from "react";
+import {DarkModeContext} from "../context/DarkModeContext";
 export default function ListContainer() {
+	const {isDarkMode} = useContext(DarkModeContext)
 	return (
 		<View style={styles.listContainerWrapper}>
 			<LinearGradient
-				colors={['hsl(0 0% 35%)', 'transparent', 'transparent']}
+				colors={isDarkMode ? ['hsl(0 0% 35%)', 'transparent', 'transparent'] : ['hsl(0 0% 100%)', 'transparent', 'transparent']}
 				style={styles.borderGradient}
 			/>
-			<ScrollView style={styles.listContainer}>
+			<ScrollView style={[styles.listContainer, {backgroundColor: isDarkMode ? "hsl(0 0% 20%)" : "hsl(0 0% 90%)"}]}>
 			</ScrollView>
 		</View>
 	);
@@ -32,7 +34,6 @@ const styles = StyleSheet.create({
 	},
 
 	listContainer: {
-		backgroundColor: "hsl(0 0% 20%)",
 		height: 160,
 		width: "100%",
 		borderRadius: 15,

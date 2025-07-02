@@ -53,9 +53,9 @@ export default function Home() {
     }
 
     return (
-        <SafeAreaProvider style={{height: 100, flexDirection: 'row', backgroundColor: "hsl(0, 0%, 15%)", paddingLeft: 16, paddingTop:8, paddingRight: 16}}>
+        <SafeAreaProvider style={{flexDirection: 'row', backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)", paddingLeft: 16, paddingTop:8, paddingRight: 16}}>
             <LinearGradient
-                colors={['hsl(0 0% 25%)', 'hsla(0 0% 0% / 0)']}
+                colors={isDarkMode ? ['hsl(0 0% 25%)', 'transparent'] : ['hsl(0 0% 100%)', 'transparent']}
                 style={[StyleSheet.absoluteFill, {height: 136}]}
             />
             <SafeAreaView>
@@ -65,17 +65,17 @@ export default function Home() {
                     <Svg width={36} height={36} viewBox="0 0 24 24">
                         <Path
                             d="M21.07,16.83,19,14.71a3.08,3.08,0,0,0-3.4-.57l-.9-.9a7,7,0,1,0-1.41,1.41l.89.89A3,3,0,0,0,14.71,19l2.12,2.12a3,3,0,0,0,4.24,0A3,3,0,0,0,21.07,16.83Zm-8.48-4.24a5,5,0,1,1,0-7.08A5,5,0,0,1,12.59,12.59Zm7.07,7.07a1,1,0,0,1-1.42,0l-2.12-2.12a1,1,0,0,1,0-1.42,1,1,0,0,1,1.42,0l2.12,2.12A1,1,0,0,1,19.66,19.66Z"
-                            fill={"#A6A6A6"}
+                            fill={isDarkMode ? "hsl(0, 0%, 65%)" : "hsl(0, 0%, 50%)"}
                         />
                     </Svg>
                 </InputField>
                 <View style={styles.mainContentContainer}>
                     <DividerComponent />
-                    <Text style={[{color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}, styles.textSemiBold]}>Opgeslagen Locaties</Text>
+                    <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Opgeslagen Locaties</Text>
                     <ListContainer></ListContainer>
 
                     <DividerComponent />
-                    <Text style={[{color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}, styles.textSemiBold]}>Aanbevolen Locaties</Text>
+                    <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Aanbevolen Locaties</Text>
                     <ListContainer></ListContainer>
                 </View>
             </SafeAreaView>
@@ -84,12 +84,6 @@ export default function Home() {
 };
 
 const styles = StyleSheet.create({
-    text: {
-        color: 'hsl(45 100% 95%)',
-    },
-    textMuted: {
-        color: 'hsl(45 15% 80%)',
-    },
     textMedium: {
         fontFamily: 'Urbanist_500Medium',
         fontSize: 24

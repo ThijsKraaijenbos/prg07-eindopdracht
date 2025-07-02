@@ -1,22 +1,24 @@
 import {View, StyleSheet, TextInput} from 'react-native';
 import {LinearGradient} from "expo-linear-gradient";
-import React from "react";
+import React, {useContext} from "react";
 import Svg, {Path} from "react-native-svg";
+import {DarkModeContext} from "../context/DarkModeContext";
 export default function InputField({placeholderText, children, onChange}) {
+	const {isDarkMode} = useContext(DarkModeContext)
 	return (
 		<View style={styles.inputFieldWrapper}>
 
-			<View style={styles.inputContainer}>
+			<View style={[styles.inputContainer, {backgroundColor: isDarkMode ? 'hsl(0 0% 20%)' : 'hsl(0 0% 90%)'}]}>
 				<LinearGradient
-					colors={['hsl(0 0% 35%)', 'transparent', 'transparent']}
+					colors={isDarkMode ? ['hsl(0 0% 35%)', 'transparent', 'transparent'] : ['hsl(0 0% 100%)', 'transparent', 'transparent']}
 					style={styles.borderGradient}
 				/>
 				{children}
 				<TextInput
-					style={[styles.input]}
+					style={[styles.input, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}]}
 					onChangeText={onChange}
 					placeholder={placeholderText}
-					placeholderTextColor="hsl(45 15% 80%)"
+					placeholderTextColor={isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}
 				/>
 			</View>
 		</View>
@@ -33,7 +35,6 @@ const styles = StyleSheet.create({
 		display: "flex",
 		flexDirection:"row",
 		alignItems: "center",
-		backgroundColor: 'hsl(0 0% 20%)',
 		borderRadius: 100,
 		paddingRight: 12,
 		paddingLeft: 4,
@@ -53,11 +54,11 @@ const styles = StyleSheet.create({
 	},
 
 	input: {
-		color: "hsl(45 15% 80%)",
 		fontFamily: 'Urbanist_500Medium',
 		fontSize: 16,
 		height: 40,
 		padding: 10,
 		zIndex: 1,
+		width: "100%",
 	},
 });
