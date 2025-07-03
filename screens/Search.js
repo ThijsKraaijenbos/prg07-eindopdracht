@@ -149,42 +149,40 @@ export default function Search() {
                         <DividerComponent></DividerComponent>
 
                         <View style={styles.detailContainer}>
-                            <View style={styles.detailLeft}>
-                                {/*Location pin*/}
-                                <View style={styles.detailWrapper}>
-                                    <Svg width={32} height={32} viewBox="0 0 24 24" className="d-none">
-                                        <Path
-                                            d="M12,2a8,8,0,0,0-8,8c0,5.4,7.05,11.5,7.35,11.76a1,1,0,0,0,1.3,0C13,21.5,20,15.4,20,10A8,8,0,0,0,12,2Zm0,17.65c-2.13-2-6-6.31-6-9.65a6,6,0,0,1,12,0C18,13.34,14.13,17.66,12,19.65ZM12,6a4,4,0,1,0,4,4A4,4,0,0,0,12,6Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,12Z"
-                                            fill={isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'} className="color000 svgShape"/>
-                                    </Svg>
-                                    <Text style={[styles.infoText, styles.textMedium, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{selectedMarker.address}</Text>
-                                </View>
-
-                                {/*Star*/}
-                                <View style={styles.detailWrapper}>
-                                    <Svg width={32} height={32} enable-background="new 0 0 24 24" viewBox="0 0 24 24"
-                                         className="d-none">
-                                        <Path
-                                            d="M22,10.1c0.1-0.5-0.3-1.1-0.8-1.1l-5.7-0.8L12.9,3c-0.1-0.2-0.2-0.3-0.4-0.4C12,2.3,11.4,2.5,11.1,3L8.6,8.2L2.9,9&#10;&#9;C2.6,9,2.4,9.1,2.3,9.3c-0.4,0.4-0.4,1,0,1.4l4.1,4l-1,5.7c0,0.2,0,0.4,0.1,0.6c0.3,0.5,0.9,0.7,1.4,0.4l5.1-2.7l5.1,2.7&#10;&#9;c0.1,0.1,0.3,0.1,0.5,0.1v0c0.1,0,0.1,0,0.2,0c0.5-0.1,0.9-0.6,0.8-1.2l-1-5.7l4.1-4C21.9,10.5,22,10.3,22,10.1z"
-                                            fill={isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'} className="color000 svgShape"/>
-                                    </Svg>
-                                    <Text style={[styles.infoText, styles.textMedium, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{selectedMarker.star_count}</Text>
-                                </View>
-
-                                {/*Tag*/}
-                                <View style={styles.detailWrapper}>
-                                    <Svg width={32} height={32} viewBox="0 0 24 24" className="d-none">
-                                        <Path
-                                            d="M7.5,6A1.5,1.5,0,1,0,9,7.5,1.5,1.5,0,0,0,7.5,6Zm13.62,4.71L12.71,2.29A1,1,0,0,0,12,2H3A1,1,0,0,0,2,3v9a1,1,0,0,0,.29.71l8.42,8.41a3,3,0,0,0,4.24,0L21.12,15a3,3,0,0,0,0-4.24Zm-1.41,2.82h0l-6.18,6.17a1,1,0,0,1-1.41,0L4,11.59V4h7.59l8.12,8.12a1,1,0,0,1,.29.71A1,1,0,0,1,19.71,13.53Z"
-                                            fill={isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'} className="color000 svgShape"/>
-                                    </Svg>
-                                    {selectedMarker.tags.map((item, index) =>
-                                    <Tag key={index}>{item.tag_name}</Tag>
-                                    )}
-                                </View>
+                            {/*Location pin*/}
+                            <View style={styles.detailWrapper}>
+                                <Svg width={32} height={32} viewBox="0 0 24 24" className="d-none">
+                                    <Path
+                                        d="M12,2a8,8,0,0,0-8,8c0,5.4,7.05,11.5,7.35,11.76a1,1,0,0,0,1.3,0C13,21.5,20,15.4,20,10A8,8,0,0,0,12,2Zm0,17.65c-2.13-2-6-6.31-6-9.65a6,6,0,0,1,12,0C18,13.34,14.13,17.66,12,19.65ZM12,6a4,4,0,1,0,4,4A4,4,0,0,0,12,6Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,12Z"
+                                        fill={isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'} className="color000 svgShape"/>
+                                </Svg>
+                                <Text style={[styles.infoText, styles.textMedium, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{selectedMarker.address}</Text>
                             </View>
-                            <View style={styles.detailRight}>
-                                <RedirectButtonComponent href={{ route: 'Detail', params: { id: selectedMarker.id } }}>Meer details</RedirectButtonComponent>
+
+                            {/*Star*/}
+                            <View style={styles.detailWrapper}>
+                                <Svg width={32} height={32} enable-background="new 0 0 24 24" viewBox="0 0 24 24"
+                                     className="d-none">
+                                    <Path
+                                        d="M22,10.1c0.1-0.5-0.3-1.1-0.8-1.1l-5.7-0.8L12.9,3c-0.1-0.2-0.2-0.3-0.4-0.4C12,2.3,11.4,2.5,11.1,3L8.6,8.2L2.9,9&#10;&#9;C2.6,9,2.4,9.1,2.3,9.3c-0.4,0.4-0.4,1,0,1.4l4.1,4l-1,5.7c0,0.2,0,0.4,0.1,0.6c0.3,0.5,0.9,0.7,1.4,0.4l5.1-2.7l5.1,2.7&#10;&#9;c0.1,0.1,0.3,0.1,0.5,0.1v0c0.1,0,0.1,0,0.2,0c0.5-0.1,0.9-0.6,0.8-1.2l-1-5.7l4.1-4C21.9,10.5,22,10.3,22,10.1z"
+                                        fill={isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'} className="color000 svgShape"/>
+                                </Svg>
+                                <Text style={[styles.infoText, styles.textMedium, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{selectedMarker.star_count}</Text>
+                            </View>
+
+                            {/*Tag*/}
+                            <View style={styles.detailWrapper}>
+                                <Svg width={32} height={32} viewBox="0 0 24 24" className="d-none">
+                                    <Path
+                                        d="M7.5,6A1.5,1.5,0,1,0,9,7.5,1.5,1.5,0,0,0,7.5,6Zm13.62,4.71L12.71,2.29A1,1,0,0,0,12,2H3A1,1,0,0,0,2,3v9a1,1,0,0,0,.29.71l8.42,8.41a3,3,0,0,0,4.24,0L21.12,15a3,3,0,0,0,0-4.24Zm-1.41,2.82h0l-6.18,6.17a1,1,0,0,1-1.41,0L4,11.59V4h7.59l8.12,8.12a1,1,0,0,1,.29.71A1,1,0,0,1,19.71,13.53Z"
+                                        fill={isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'} className="color000 svgShape"/>
+                                </Svg>
+                                {selectedMarker.tags.map((item, index) =>
+                                <Tag key={index}>{item.tag_name}</Tag>
+                                )}
+                            </View>
+                            <View style={styles.detailLeft}>
+                                <RedirectButtonComponent style={styles.moreDetails} href={{ route: 'Detail', params: { id: selectedMarker.id } }}>Meer details</RedirectButtonComponent>
                             </View>
                         </View>
                     </View>
@@ -258,15 +256,13 @@ const styles = StyleSheet.create({
     },
     detailContainer: {
         display: "flex",
-        flexDirection: "row",
-    },
-    detailRight: {
-        display: "flex",
-        justifyContent: "flex-end",
-        alignItems: "flex-end",
+        flexDirection: "column",
     },
     infoText: {
         marginLeft: 8,
         maxWidth: "70%",
-    }
+    },
+    detailLeft: {
+        alignSelf: "flex-end", // or "center"
+    },
 });

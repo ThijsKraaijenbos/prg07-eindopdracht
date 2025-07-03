@@ -13,7 +13,7 @@ export default function RedirectButtonComponent({children, href}) {
 				colors={isDarkMode ? ['hsl(225 80% 80%)', 'transparent', 'transparent'] : ['hsl(0 0% 100%)', 'transparent', 'transparent']}
 				style={styles.borderGradient}
 			/>
-			<Text style={[styles.tag, {backgroundColor: isDarkMode ? "hsl(0 0% 20%)" : "hsl(0 0% 90%)", color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{children}</Text>
+			<Text style={[styles.tag, {backgroundColor: isDarkMode ? "hsl(225 30% 40%)" : "hsl(45 100% 80%)", color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{children}</Text>
 		</Pressable>
 	);
 };
