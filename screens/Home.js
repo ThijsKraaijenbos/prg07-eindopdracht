@@ -1,5 +1,5 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {Text, StyleSheet, TextInput, View} from 'react-native';
+import {Text, StyleSheet, TextInput, View, ScrollView} from 'react-native';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useFocusEffect} from "@react-navigation/native";
@@ -10,12 +10,38 @@ import DividerComponent from "../components/DividerComponent";
 import ListContainer from "../components/ListContainer";
 import InputField from "../components/InputField";
 import {DarkModeContext} from "../context/DarkModeContext";
+import ListItem from "../components/ListItem";
 
 export default function Home() {
 
     const [timeValue, setTimeValue] = useState("")
     const [nameValue, setNameValue] = useState("")
+    const [recommended, setRecommended] = useState([])
     const {isDarkMode} = useContext(DarkModeContext);
+
+    async function getRecommendedLocations() {
+        const response = await fetch('http://145.24.223.116/api/restaurants?recommended=true', {
+            method: 'GET',
+            headers: {
+                'Accept' : "application/json"
+            }
+        })
+
+        const data = await response.json()
+        const locations = data.map(item => ({
+            id: item.id,
+            name: item.name,
+            star_count: item.star_count,
+            address: item.address,
+            tags: item.tags,
+            img_url: item.img_url
+        }));
+        setRecommended(locations);
+    }
+
+    useEffect(() => {
+        getRecommendedLocations()
+    }, []);
 
     useFocusEffect(
         useCallback(() => {
@@ -69,15 +95,21 @@ export default function Home() {
                         />
                     </Svg>
                 </InputField>
-                <View style={styles.mainContentContainer}>
-                    <DividerComponent />
-                    <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Opgeslagen Locaties</Text>
-                    <ListContainer></ListContainer>
+                    <ScrollView style={styles.scrollView}>
+                    <View style={styles.mainContentContainer}>
+                        <DividerComponent />
+                        <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Opgeslagen Locaties</Text>
+                        <ListContainer></ListContainer>
 
-                    <DividerComponent />
-                    <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Aanbevolen Locaties</Text>
-                    <ListContainer></ListContainer>
-                </View>
+                        <DividerComponent />
+                        <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Aanbevolen Locaties</Text>
+                        <ListContainer>
+                            {recommended.map((item, index) => (
+                                <ListItem key={index} data={item}/>
+                            ))}
+                        </ListContainer>
+                    </View>
+                </ScrollView>
             </SafeAreaView>
         </SafeAreaProvider>
     );
@@ -98,5 +130,6 @@ const styles = StyleSheet.create({
         display: "flex",
         flex: 1,
         alignItems: "center",
+        marginBottom: 100
     },
 });

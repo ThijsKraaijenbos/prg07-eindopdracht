@@ -83,10 +83,6 @@ export default function Search() {
         setMarkers(locations);
     }
 
-    useEffect(() => {
-        console.log(selectedMarker)
-    }, [selectedMarker]);
-
     useFocusEffect(
         React.useCallback(() => {
             getCurrentLocation();

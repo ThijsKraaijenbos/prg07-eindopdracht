@@ -8,7 +8,7 @@ import {useCallback} from "react"
 import InputField from "../components/InputField";
 import {DarkModeContext} from "../context/DarkModeContext";
 
-export default function Settings({ route }) {
+export default function Settings() {
     const [nameValue, setNameValue] = useState('');
     const {isDarkMode, toggleDarkMode} = useContext(DarkModeContext);
 
