@@ -13,6 +13,7 @@ import Tag from "../components/Tag";
 import {LinearGradient} from "expo-linear-gradient";
 import {DarkModeContext} from "../context/DarkModeContext";
 import RedirectButtonComponent from "../components/RedirectButtonComponent";
+import {SafeAreaProvider, useSafeAreaInsets} from "react-native-safe-area-context";
 
 export default function Search() {
     const [location, setLocation] = useState();
@@ -21,6 +22,7 @@ export default function Search() {
     const [markers, setMarkers] = useState([])
     const [selectedMarker, setSelectedMarker] = useState(null);
     const {isDarkMode} = useContext(DarkModeContext)
+    const insets = useSafeAreaInsets();
 
     const watchId = useRef()
 
@@ -103,6 +105,9 @@ export default function Search() {
 
     return (
         <View style={styles.container}>
+            <View style={[styles.topButton, {top: insets.top}]}>
+                <RedirectButtonComponent style={styles.moreDetails} href={{route: "AllRestaurants"}}>Bekijk Alle</RedirectButtonComponent>
+            </View>
             <MapView
                 userLocationPriority={"balanced"}
                 showsUserLocation={true}
@@ -205,7 +210,8 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: "hsl(0, 0%, 15%)"
+        backgroundColor: "hsl(0, 0%, 15%)",
+        position: "relative"
     },
     loading : {
         flex: 1,
@@ -217,11 +223,11 @@ const styles = StyleSheet.create({
         width: '110%',
         height: '110%',
     },
-    paragraph: {
-        fontSize: 18,
-        textAlign: 'center',
+    topButton: {
+        position: "absolute",
+        zIndex: 100,
+        right: 16,
     },
-
     popupWrapper: {
         position: 'absolute',
         bottom: 0,
@@ -256,6 +262,7 @@ const styles = StyleSheet.create({
     },
     detailContainer: {
         display: "flex",
+        position: "relative",
         flexDirection: "column",
     },
     infoText: {
@@ -263,6 +270,8 @@ const styles = StyleSheet.create({
         maxWidth: "70%",
     },
     detailLeft: {
+        position: "absolute",
+        bottom: 0,
         alignSelf: "flex-end", // or "center"
     },
 });

@@ -14,6 +14,7 @@ import {Urbanist_500Medium, Urbanist_600SemiBold} from "@expo-google-fonts/urban
 import {useContext, useEffect, useState} from "react";
 import {DarkModeContext, DarkModeContextProvider} from "./context/DarkModeContext";
 import Detail from "./screens/Detail";
+import AllRestaurants from "./screens/AllRestaurants";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -173,6 +174,11 @@ function RootStack() {
             <Stack.Screen
                 name="BottomTabs"
                 component={BottomTabs}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="AllRestaurants"
+                component={AllRestaurants}
                 options={{ headerShown: false }}
             />
             <Stack.Screen

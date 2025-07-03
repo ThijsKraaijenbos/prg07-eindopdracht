@@ -13,7 +13,7 @@ export default function RedirectButtonComponent({children, href}) {
 				colors={isDarkMode ? ['hsl(225 80% 80%)', 'transparent', 'transparent'] : ['hsl(0 0% 100%)', 'transparent', 'transparent']}
 				style={styles.borderGradient}
 			/>
-			<Text style={[styles.tag, {backgroundColor: isDarkMode ? "hsl(225 30% 40%)" : "hsl(45 100% 80%)", color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{children}</Text>
+			<Text style={[styles.button, {backgroundColor: isDarkMode ? "hsl(225 30% 40%)" : "hsl(45 100% 80%)", color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{children}</Text>
 		</Pressable>
 	);
 };
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
 	wrapper: {
 		marginLeft: 8,
 		alignItems: "center",
+		justifyContent: "center",
 	},
 	borderGradient: {
 		position: 'absolute',
@@ -33,11 +34,11 @@ const styles = StyleSheet.create({
 		zIndex: -1,
 		boxShadow: '0 5 5 0 rgba(0,0,0,0.2)', //shadows look a little weird in the emulator
 	},
-	tag: {
+	button: {
 		fontFamily: 'Urbanist_500Medium',
-		fontSize: 16,
-		paddingHorizontal: 8,
-		paddingVertical: 3,
+		fontSize: 24,
+		paddingVertical: 8,
+		paddingHorizontal: 12,
 		borderRadius: 100,
 		textAlign: "center",
 	}
