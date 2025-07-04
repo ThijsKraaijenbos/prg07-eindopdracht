@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
 
 	line: {
 		height: 2,
-		width: "75%",
+		width: "90%",
 		margin: 0,
 		marginVertical: 8,
 		alignSelf:"center",
@@ -123,8 +123,8 @@ const styles = StyleSheet.create({
 		marginLeft: 4,
 	},
 	heading: {
-		fontFamily: 'Urbanist_700Bold',
-		fontSize: 24,
+		fontFamily: 'Urbanist_600SemiBold',
+		fontSize: 20,
 		textAlign: "center"
 	},
 	text: {
