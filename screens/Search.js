@@ -66,16 +66,6 @@ export default function Search() {
         })
 
         const data = await response.json()
-
-        // const locations = data.map(item => ({
-        //     id: item.id,
-        //     name: item.name,
-        //     latitude: item.latitude,
-        //     longitude: item.longitude,
-        //     star_count: item.star_count,
-        //     address: item.address,
-        //     tags: item.tags,
-        // }));
         setMarkers(data);
     }
 

@@ -23,15 +23,6 @@ export default function AllRestaurants() {
                 })
 
                 const data = await response.json()
-                // const mappedData = data.map(item => ({
-                //     id: item.id,
-                //     name: item.name,
-                //     latitude: item.latitude,
-                //     longitude: item.longitude,
-                //     star_count: item.star_count,
-                //     address: item.address,
-                //     tags: item.tags,
-                // }));
                 setRestaurants(data)
                 setLoading(false)
             }
