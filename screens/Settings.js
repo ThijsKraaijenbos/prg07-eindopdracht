@@ -13,14 +13,14 @@ export default function Settings() {
     const {isDarkMode, toggleDarkMode} = useContext(DarkModeContext);
 
     useFocusEffect(
-        useCallback( () => {
-            //nested with an async like this because react native gives a warning
-            //when I do useCallback( async()
+        useCallback(() => {
             async function fetchData() {
                 try {
                     const name = await AsyncStorage.getItem('username');
                     if (name !== null) {
                         setNameValue(JSON.parse(name))
+                    } else {
+                        setNameValue("gebruiker")
                     }
                 } catch (e) {
                     console.log(e)
@@ -44,7 +44,7 @@ export default function Settings() {
             <SafeAreaView style={{flexDirection: 'row'}}>
                 <View style={styles.container}>
                     <InputField
-                        placeholderText={"Naam"}
+                        placeholderText={"Vul een naam in"}
                         onChange={updateNameText}
                         value={nameValue}
                         />

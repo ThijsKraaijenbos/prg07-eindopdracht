@@ -3,7 +3,7 @@ import {LinearGradient} from "expo-linear-gradient";
 import React, {useContext} from "react";
 import Svg, {Path} from "react-native-svg";
 import {DarkModeContext} from "../context/DarkModeContext";
-export default function InputField({placeholderText, children, onChange}) {
+export default function InputField({placeholderText, children, onChange, value}) {
 	const {isDarkMode} = useContext(DarkModeContext)
 	return (
 		<View style={styles.inputFieldWrapper}>
@@ -15,6 +15,7 @@ export default function InputField({placeholderText, children, onChange}) {
 				/>
 				{children}
 				<TextInput
+					value={value}
 					style={[styles.input, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}]}
 					onChangeText={onChange}
 					placeholder={placeholderText}

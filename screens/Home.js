@@ -46,11 +46,8 @@ export default function Home() {
             async function fetchData() {
                 try {
                     const name = await AsyncStorage.getItem('username');
-                    if (name !== null) {
-                        setNameValue(JSON.parse(name))
-                    } else {
-                        setNameValue("gebruiker")
-                    }
+                    const parsedName = JSON.parse(name)
+                    setNameValue(parsedName ? parsedName : "Gebruiker")
                 } catch (e) {
                     console.log(e)
                 }
