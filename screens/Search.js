@@ -24,8 +24,6 @@ export default function Search() {
     const {isDarkMode} = useContext(DarkModeContext)
     const insets = useSafeAreaInsets();
 
-    const watchId = useRef()
-
     async function getCurrentLocation() {
         try {
             let { status } = await Location.requestForegroundPermissionsAsync();
@@ -34,25 +32,20 @@ export default function Search() {
                 return;
             }
 
-            watchId.current = await Location.watchPositionAsync(
-                {
-                    accuracy: Location.Accuracy.Highest,
-                    // timeInterval: 1000,
-                    distanceInterval: 5,
-                },
-                (loc) => {
-                    const newCoords = {
-                        latitude: loc.coords.latitude,
-                        longitude: loc.coords.longitude,
-                    }
+            const loc = await Location.getCurrentPositionAsync({
+                accuracy: Location.Accuracy.Highest,
+            });
 
-                    setLocation({
-                        ...newCoords,
-                        latitudeDelta: 0.005,
-                        longitudeDelta: 0.005,
-                    })
-                }
-            )
+            const newCoords = {
+                latitude: loc.coords.latitude,
+                longitude: loc.coords.longitude,
+            };
+
+            setLocation({
+                ...newCoords,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005,
+            });
 
         } catch (e) {
             console.log(e)
@@ -83,20 +76,18 @@ export default function Search() {
         setMarkers(locations);
     }
 
-    useFocusEffect(
-        React.useCallback(() => {
-            getCurrentLocation();
-            getAllLocations()
-        }, [])
-    );
+    useEffect(() => {
+        getCurrentLocation();
+        getAllLocations()
+    }, []);
 
-    if (loading === true) {
+    if (loading || !location) {
         return (
-            <View style={[styles.loading, {backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)"}]}>
-                <Text style={[styles.textLarge, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Loading Location</Text>
-                <ActivityIndicator size={"large"}></ActivityIndicator>
+            <View style={[styles.loading, { backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)" }]}>
+                <Text style={[styles.textLarge, { color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)' }]}>Loading Location</Text>
+                <ActivityIndicator size={"large"} />
             </View>
-        )
+        );
     }
 
     return (

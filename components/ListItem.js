@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
 		width: "90%",
 		paddingVertical: 16,
 		alignSelf: "center",
+		margin: -8 //had to add this here because the padding causes insanely wonky behavior and for some reason adds a margin as well
 	},
 
 	borderGradient: {
@@ -42,17 +43,18 @@ const styles = StyleSheet.create({
 		bottom: 0,
 		borderRadius: 15,
 		zIndex: 0,
+		margin: 0,
 	},
 
 	details: {
 		display: "flex",
 		flexDirection: "row",
-		gap: 8,
 		fontFamily: 'Urbanist_500Medium',
 		fontSize: 16,
 		padding: 8,
 		borderRadius: 15,
 		boxShadow: '0 5 5 0 rgba(0,0,0,0.2)',
+		margin: 0,
 	},
 
 	coverImage: {

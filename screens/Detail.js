@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {Pressable, TextInput, Text, StyleSheet, View, Switch} from "react-native";
 import {DarkModeContext} from "../context/DarkModeContext";
+import {LinearGradient} from "expo-linear-gradient";
 
 export default function Detail({route}) {
     const { id } = route.params;
@@ -9,24 +10,9 @@ export default function Detail({route}) {
     // console.log(route.params)
     const {isDarkMode} = useContext(DarkModeContext);
 
-    // useFocusEffect(
-    //     useCallback( () => {
-    //         //nested with an async like this because react native gives a warning
-    //         //when I do useCallback( async()
-    //         const response = await fetch('http://145.24.223.116/api/restaurants?map=true', {
-    //             method: 'GET',
-    //             headers: {
-    //                 'Accept' : "application/json"
-    //             }
-    //         })
-    //
-    //         const data = await response.json()
-    //     }, [])
-    // )
-
     useEffect( () => {
         const fetchRestaurant = async () => {
-            const response = await fetch(`http://145.24.223.116/api/restaurants/${id}`, {
+            const response = await fetch(`http://145.24.223.116/api/restaurants/${id}?full_detail=true`, {
                 method: 'GET',
                 headers: {
                     'Accept': "application/json"
@@ -42,6 +28,10 @@ export default function Detail({route}) {
 
     return (
         <SafeAreaProvider style={{backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)", paddingLeft: 16, paddingTop:8, paddingRight: 16}}>
+            <LinearGradient
+                colors={isDarkMode ? ['hsl(0 0% 25%)', 'transparent'] : ['hsl(0 0% 100%)', 'transparent']}
+                style={[StyleSheet.absoluteFill, {height: 136}]}
+            />
             <SafeAreaView>
                 <View>
                     <Text>{restaurant.name}</Text>

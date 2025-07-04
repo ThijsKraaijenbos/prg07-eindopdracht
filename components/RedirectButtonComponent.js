@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		fontFamily: 'Urbanist_500Medium',
-		fontSize: 24,
+		fontSize:16,
 		paddingVertical: 8,
 		paddingHorizontal: 12,
 		borderRadius: 100,

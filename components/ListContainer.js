@@ -1,8 +1,9 @@
-import {View, StyleSheet, ScrollView, Text} from 'react-native';
+import {View, StyleSheet, ScrollView, Text, FlatList} from 'react-native';
 import {LinearGradient} from "expo-linear-gradient";
 import React, {useContext} from "react";
 import {DarkModeContext} from "../context/DarkModeContext";
-export default function ListContainer({children}) {
+import ListItem from "./ListItem";
+export default function ListContainer({data}) {
 	const [toggled, setToggled] = [false]
 	const {isDarkMode} = useContext(DarkModeContext)
 	return (
@@ -11,9 +12,12 @@ export default function ListContainer({children}) {
 				colors={isDarkMode ? ['hsl(0 0% 35%)', 'transparent', 'transparent'] : ['hsl(0 0% 100%)', 'transparent', 'transparent']}
 				style={styles.borderGradient}
 			/>
-			<ScrollView style={[styles.listContainer, {backgroundColor: isDarkMode ? "hsl(0 0% 20%)" : "hsl(0 0% 90%)"}]}>
-				{children}
-			</ScrollView>
+			<FlatList
+				style={[styles.listContainer, {backgroundColor: isDarkMode ? "hsl(0 0% 20%)" : "hsl(0 0% 90%)"}]}
+				data={data}
+				renderItem={({item}) => <ListItem data={item}/>}
+				keyExtractor={item => item.id}
+			/>
 		</View>
 	);
 };
@@ -41,5 +45,6 @@ const styles = StyleSheet.create({
 		width: "100%",
 		borderRadius: 15,
 		boxShadow: '0 5 5 0 rgba(0,0,0,0.2)',
+		overflow: 'hidden'
 	}
 });

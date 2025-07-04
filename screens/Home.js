@@ -102,10 +102,10 @@ export default function Home() {
 
                     <DividerComponent />
                     <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Aanbevolen Locaties</Text>
-                    <ListContainer>
-                        {recommended.map((item, index) => (
-                            <ListItem key={index} data={item}/>
-                        ))}
+                    <ListContainer data={recommended}>
+                        {/*{recommended.map((item, index) => (*/}
+                        {/*    <ListItem key={index} data={item}/>*/}
+                        {/*))}*/}
                     </ListContainer>
                 </View>
             </SafeAreaView>
