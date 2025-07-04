@@ -1,5 +1,5 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {Text, StyleSheet, View} from 'react-native';
+import {Text, StyleSheet, View, ScrollView} from 'react-native';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useFocusEffect} from "@react-navigation/native";
@@ -82,22 +82,22 @@ export default function Home() {
                 colors={isDarkMode ? ['hsl(0 0% 25%)', 'transparent'] : ['hsl(0 0% 100%)', 'transparent']}
                 style={[StyleSheet.absoluteFill, {height: 136}]}
             />
-            <SafeAreaView>
-                <Text style={[styles.textMedium, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}, {marginLeft: 8}]}>{timeValue}, {nameValue}</Text>
+                <SafeAreaView>
+                    <Text style={[styles.textMedium, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}, {marginLeft: 8}]}>{timeValue}, {nameValue}</Text>
 
-                <InputField placeholderText={"Zoek een locatie..."}>
-                    <SearchIcon size={36}/>
-                </InputField>
-                <View style={styles.mainContentContainer}>
-                    <DividerComponent />
-                    <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Opgeslagen Locaties</Text>
-                    <ListContainer></ListContainer>
+                    <InputField placeholderText={"Zoek een locatie..."}>
+                        <SearchIcon size={36}/>
+                    </InputField>
+                        <View style={styles.mainContentContainer}>
+                            <DividerComponent />
+                            <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Opgeslagen Locaties</Text>
+                            <ListContainer data={recommended}/>
 
-                    <DividerComponent />
-                    <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Aanbevolen Locaties</Text>
-                    <ListContainer data={recommended}/>
-                </View>
-            </SafeAreaView>
+                            <DividerComponent />
+                            <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Aanbevolen Locaties</Text>
+                            <ListContainer data={recommended}/>
+                        </View>
+                </SafeAreaView>
         </SafeAreaProvider>
     );
 };

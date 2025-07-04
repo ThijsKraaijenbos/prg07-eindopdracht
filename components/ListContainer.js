@@ -45,6 +45,5 @@ const styles = StyleSheet.create({
 		width: "100%",
 		borderRadius: 15,
 		boxShadow: '0 5 5 0 rgba(0,0,0,0.2)',
-		overflow: 'hidden'
 	}
 });
