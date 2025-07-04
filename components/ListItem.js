@@ -1,4 +1,4 @@
-import {View, StyleSheet, Text, Image} from 'react-native';
+import {View, StyleSheet, Text, Image, Pressable} from 'react-native';
 import {LinearGradient} from "expo-linear-gradient";
 import React, {useContext} from "react";
 import {DarkModeContext} from "../context/DarkModeContext";
@@ -7,10 +7,13 @@ import Tag from "./Tag";
 import StarIcon from "./icons/StarIcon";
 import TagIcon from "./icons/TagIcon";
 import DividerComponent from "./DividerComponent";
+import {useNavigation} from "@react-navigation/native";
 export default function ListItem({data}) {
+	const { id } = data
 	const {isDarkMode} = useContext(DarkModeContext)
+	const navigation = useNavigation()
 	return (
-		<View style={styles.listItemWrapper}>
+		<Pressable onPress={() => navigation.navigate('Detail', { id })} style={styles.listItemWrapper}>
 			<LinearGradient
 				colors={isDarkMode ? ['hsl(0 0% 35%)', 'transparent', 'transparent'] : ['hsl(0 0% 100%)', 'transparent', 'transparent']}
 				style={styles.borderGradient}
@@ -51,7 +54,7 @@ export default function ListItem({data}) {
 					</View>
 				</View>
 			</View>
-		</View>
+		</Pressable>
 	);
 };
 

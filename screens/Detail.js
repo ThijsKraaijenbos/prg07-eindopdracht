@@ -6,11 +6,13 @@ import {LinearGradient} from "expo-linear-gradient";
 
 export default function Detail({route}) {
     const { id } = route.params;
+
     const [restaurant, setRestaurant] = useState({})
     // console.log(route.params)
     const {isDarkMode} = useContext(DarkModeContext);
 
     useEffect( () => {
+        console.log(id)
         const fetchRestaurant = async () => {
             const response = await fetch(`http://145.24.223.116/api/restaurants/${id}?full_detail=true`, {
                 method: 'GET',

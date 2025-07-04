@@ -67,16 +67,16 @@ export default function Search() {
 
         const data = await response.json()
 
-        const locations = data.map(item => ({
-            id: item.id,
-            name: item.name,
-            latitude: item.latitude,
-            longitude: item.longitude,
-            star_count: item.star_count,
-            address: item.address,
-            tags: item.tags,
-        }));
-        setMarkers(locations);
+        // const locations = data.map(item => ({
+        //     id: item.id,
+        //     name: item.name,
+        //     latitude: item.latitude,
+        //     longitude: item.longitude,
+        //     star_count: item.star_count,
+        //     address: item.address,
+        //     tags: item.tags,
+        // }));
+        setMarkers(data);
     }
 
     useEffect(() => {
@@ -94,7 +94,7 @@ export default function Search() {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)" }]}>
             <View style={[styles.topButton, {top: insets.top}]}>
                 <RedirectButtonComponent style={styles.moreDetails} href={{route: "AllRestaurants"}}>Bekijk Alle</RedirectButtonComponent>
             </View>
@@ -146,7 +146,7 @@ export default function Search() {
                         <View style={styles.detailContainer}>
                             {/*Location pin*/}
                             <View style={styles.detailWrapper}>
-                                <LocationIcon scale={24}/>
+                                <LocationIcon size={24}/>
                                 <Text style={[styles.infoText, styles.textMedium, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{selectedMarker.address}</Text>
                             </View>
 
@@ -164,7 +164,7 @@ export default function Search() {
                                 )}
                             </View>
                             <View style={styles.detailLeft}>
-                                <RedirectButtonComponent style={styles.moreDetails} href={{ route: 'Detail', params: { id: selectedMarker.id } }}>Meer details</RedirectButtonComponent>
+                                <RedirectButtonComponent href={{ route: 'Detail', params: { id: selectedMarker.id } }}>Meer details</RedirectButtonComponent>
                             </View>
                         </View>
                     </View>
@@ -187,7 +187,6 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: "hsl(0, 0%, 15%)",
         position: "relative"
     },
     loading : {
