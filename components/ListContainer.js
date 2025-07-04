@@ -3,6 +3,7 @@ import {LinearGradient} from "expo-linear-gradient";
 import React, {useContext} from "react";
 import {DarkModeContext} from "../context/DarkModeContext";
 export default function ListContainer({children}) {
+	const [toggled, setToggled] = [false]
 	const {isDarkMode} = useContext(DarkModeContext)
 	return (
 		<View style={styles.listContainerWrapper}>
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
 	listContainerWrapper: {
 		position: "relative",
 		width: "100%",
-		paddingTop: 16
+		paddingTop: 16,
 	},
 
 	borderGradient: {
@@ -35,7 +36,8 @@ const styles = StyleSheet.create({
 	},
 
 	listContainer: {
-		height: 240,
+		minHeight: 60,
+		maxHeight: 240,
 		width: "100%",
 		borderRadius: 15,
 		boxShadow: '0 5 5 0 rgba(0,0,0,0.2)',

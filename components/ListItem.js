@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
 	listItemWrapper: {
 		position: "relative",
 		width: "90%",
-		paddingTop: 16,
-		alignSelf: "center"
+		paddingVertical: 16,
+		alignSelf: "center",
 	},
 
 	borderGradient: {

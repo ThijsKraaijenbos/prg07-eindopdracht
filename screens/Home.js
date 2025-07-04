@@ -95,21 +95,19 @@ export default function Home() {
                         />
                     </Svg>
                 </InputField>
-                    <ScrollView style={styles.scrollView}>
-                    <View style={styles.mainContentContainer}>
-                        <DividerComponent />
-                        <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Opgeslagen Locaties</Text>
-                        <ListContainer></ListContainer>
+                <View style={styles.mainContentContainer}>
+                    <DividerComponent />
+                    <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Opgeslagen Locaties</Text>
+                    <ListContainer></ListContainer>
 
-                        <DividerComponent />
-                        <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Aanbevolen Locaties</Text>
-                        <ListContainer>
-                            {recommended.map((item, index) => (
-                                <ListItem key={index} data={item}/>
-                            ))}
-                        </ListContainer>
-                    </View>
-                </ScrollView>
+                    <DividerComponent />
+                    <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Aanbevolen Locaties</Text>
+                    <ListContainer>
+                        {recommended.map((item, index) => (
+                            <ListItem key={index} data={item}/>
+                        ))}
+                    </ListContainer>
+                </View>
             </SafeAreaView>
         </SafeAreaProvider>
     );
@@ -130,6 +128,5 @@ const styles = StyleSheet.create({
         display: "flex",
         flex: 1,
         alignItems: "center",
-        marginBottom: 100
     },
 });
