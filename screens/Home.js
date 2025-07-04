@@ -77,11 +77,19 @@ export default function Home() {
     }
 
     return (
-        <SafeAreaProvider style={{flexDirection: 'row', backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)", paddingLeft: 16, paddingTop:8, paddingRight: 16}}>
+        <SafeAreaProvider style={{flexDirection: 'row', backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)"}}>
             <LinearGradient
                 colors={isDarkMode ? ['hsl(0 0% 25%)', 'transparent'] : ['hsl(0 0% 100%)', 'transparent']}
                 style={[StyleSheet.absoluteFill, {height: 136}]}
             />
+            <ScrollView
+                nestedScrollEnabled={true}
+                style={{
+                    paddingLeft: 16,
+                    paddingRight: 16,
+                }}
+                contentContainerStyle={{paddingBottom: 80}}
+            >
                 <SafeAreaView>
                     <Text style={[styles.textMedium, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}, {marginLeft: 8}]}>{timeValue}, {nameValue}</Text>
 
@@ -98,6 +106,7 @@ export default function Home() {
                             <ListContainer data={recommended}/>
                         </View>
                 </SafeAreaView>
+            </ScrollView>
         </SafeAreaProvider>
     );
 };

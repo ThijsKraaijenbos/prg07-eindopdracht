@@ -1,10 +1,11 @@
-import {View, StyleSheet, ScrollView, Text, FlatList} from 'react-native';
+import {View, StyleSheet, ScrollView, Text, FlatList, Pressable} from 'react-native';
 import {LinearGradient} from "expo-linear-gradient";
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import {DarkModeContext} from "../context/DarkModeContext";
 import ListItem from "./ListItem";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 export default function ListContainer({data}) {
-	const [toggled, setToggled] = [false]
+	const [toggled, setToggled] = useState(false)
 	const {isDarkMode} = useContext(DarkModeContext)
 	return (
 		<View style={styles.listContainerWrapper}>
@@ -12,12 +13,26 @@ export default function ListContainer({data}) {
 				colors={isDarkMode ? ['hsl(0 0% 35%)', 'transparent', 'transparent'] : ['hsl(0 0% 100%)', 'transparent', 'transparent']}
 				style={styles.borderGradient}
 			/>
-			<FlatList
-				style={[styles.listContainer, {backgroundColor: isDarkMode ? "hsl(0 0% 20%)" : "hsl(0 0% 90%)"}]}
-				data={data}
-				renderItem={({item}) => <ListItem data={item}/>}
-				keyExtractor={item => item.id}
-			/>
+			<View style={[styles.listContainer, {backgroundColor: isDarkMode ? "hsl(0 0% 20%)" : "hsl(0 0% 90%)"}]}>
+				{toggled ? (
+					<Pressable onPress={() => setToggled(false)} style={styles.toggleButton}>
+						<FontAwesome5Icon size={32} color={isDarkMode ? "hsl(45 100% 80%)" : "hsl(225 30% 40%)"} name={"chevron-up"}/>
+					</Pressable>
+						) : (
+					<>
+						<Pressable onPress={() => setToggled(true)} style={styles.toggleButton}>
+							<FontAwesome5Icon size={32} color={isDarkMode ? "hsl(45 100% 80%)" : "hsl(225 30% 40%)"} name={"chevron-down"}/>
+						</Pressable>
+						<FlatList
+							scrollEnabled={false}
+							data={data}
+							renderItem={({item}) => <ListItem data={item}/>}
+							keyExtractor={item => item.id}
+						/>
+					</>
+				)}
+
+			</View>
 		</View>
 	);
 };
@@ -40,10 +55,15 @@ const styles = StyleSheet.create({
 	},
 
 	listContainer: {
-		minHeight: 60,
-		maxHeight: 240,
+		paddingVertical: 8,
+		// minHeight: 60,
 		width: "100%",
 		borderRadius: 15,
 		boxShadow: '0 5 5 0 rgba(0,0,0,0.2)',
+	},
+	toggleButton: {
+		flexDirection: "row",
+		width: "100%",
+		justifyContent: "center",
 	}
 });
