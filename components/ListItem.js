@@ -2,6 +2,11 @@ import {View, StyleSheet, ScrollView, Text, Image} from 'react-native';
 import {LinearGradient} from "expo-linear-gradient";
 import React, {useContext} from "react";
 import {DarkModeContext} from "../context/DarkModeContext";
+import Svg, {Path} from "react-native-svg";
+import LocationIcon from "./icons/LocationIcon";
+import Tag from "./Tag";
+import StarIcon from "./icons/StarIcon";
+import TagIcon from "./icons/TagIcon";
 export default function ListItem({data}) {
 	const {isDarkMode} = useContext(DarkModeContext)
 	return (
@@ -17,9 +22,26 @@ export default function ListItem({data}) {
 						uri: `${data.img_url}`,
 					}}
 				/>
-				<View>
-					<Text style={[styles.textMedium, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}]}>{data.name}</Text>
-					<Text style={[styles.textMedium, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}]}>{data.address}</Text>
+				<View style={styles.detailContainer}>
+					{/*Location pin*/}
+					<View style={styles.detailWrapper}>
+						<LocationIcon size={24}/>
+						<Text style={[styles.infoText, styles.textMedium, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{data.address}</Text>
+					</View>
+
+					{/*Star*/}
+					<View style={styles.detailWrapper}>
+						<StarIcon size={24}/>
+						<Text style={[styles.infoText, styles.textMedium, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{data.star_count}</Text>
+					</View>
+
+					{/*Tag*/}
+					<View style={styles.detailWrapper}>
+						<TagIcon size={24}/>
+						{data.tags.map((item, index) =>
+							<Tag key={index} size={12}>{item.tag_name}</Tag>
+						)}
+					</View>
 				</View>
 			</View>
 		</View>
@@ -55,10 +77,30 @@ const styles = StyleSheet.create({
 		borderRadius: 15,
 		boxShadow: '0 5 5 0 rgba(0,0,0,0.2)',
 		margin: 0,
+		alignItems: "center"
 	},
 
 	coverImage: {
-		width: 50,
-		height: 50,
+		width: 100,
+		height: 80,
+		borderRadius: 8,
+		boxShadow: '0 5 5 0 rgba(0,0,0,0.2)',
+	},
+
+	detailWrapper: {
+		display: "flex",
+		flexDirection: "row",
+		marginBottom: 4,
+		alignItems: "center"
+	},
+	detailContainer: {
+		display: "flex",
+		position: "relative",
+		flexDirection: "column",
+		marginLeft: 8,
+		width: "50%"
+	},
+	infoText: {
+		marginLeft: 4,
 	},
 });

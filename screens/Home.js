@@ -1,16 +1,14 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {Text, StyleSheet, TextInput, View, ScrollView} from 'react-native';
+import {Text, StyleSheet, View} from 'react-native';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useFocusEffect} from "@react-navigation/native";
-import {Image} from 'react-native';
 import {LinearGradient} from "expo-linear-gradient";
-import Svg, {Path} from "react-native-svg";
 import DividerComponent from "../components/DividerComponent";
 import ListContainer from "../components/ListContainer";
 import InputField from "../components/InputField";
 import {DarkModeContext} from "../context/DarkModeContext";
-import ListItem from "../components/ListItem";
+import SearchIcon from "../components/icons/SearchIcon";
 
 export default function Home() {
 
@@ -88,12 +86,7 @@ export default function Home() {
                 <Text style={[styles.textMedium, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}, {marginLeft: 8}]}>{timeValue}, {nameValue}</Text>
 
                 <InputField placeholderText={"Zoek een locatie..."}>
-                    <Svg width={36} height={36} viewBox="0 0 24 24">
-                        <Path
-                            d="M21.07,16.83,19,14.71a3.08,3.08,0,0,0-3.4-.57l-.9-.9a7,7,0,1,0-1.41,1.41l.89.89A3,3,0,0,0,14.71,19l2.12,2.12a3,3,0,0,0,4.24,0A3,3,0,0,0,21.07,16.83Zm-8.48-4.24a5,5,0,1,1,0-7.08A5,5,0,0,1,12.59,12.59Zm7.07,7.07a1,1,0,0,1-1.42,0l-2.12-2.12a1,1,0,0,1,0-1.42,1,1,0,0,1,1.42,0l2.12,2.12A1,1,0,0,1,19.66,19.66Z"
-                            fill={isDarkMode ? "hsl(0, 0%, 65%)" : "hsl(0, 0%, 50%)"}
-                        />
-                    </Svg>
+                    <SearchIcon size={36}/>
                 </InputField>
                 <View style={styles.mainContentContainer}>
                     <DividerComponent />
@@ -102,11 +95,7 @@ export default function Home() {
 
                     <DividerComponent />
                     <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Aanbevolen Locaties</Text>
-                    <ListContainer data={recommended}>
-                        {/*{recommended.map((item, index) => (*/}
-                        {/*    <ListItem key={index} data={item}/>*/}
-                        {/*))}*/}
-                    </ListContainer>
+                    <ListContainer data={recommended}/>
                 </View>
             </SafeAreaView>
         </SafeAreaProvider>
