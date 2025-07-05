@@ -86,7 +86,7 @@ export default function Search() {
     return (
         <View style={[styles.container, { backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)" }]}>
             <View style={[styles.topButton, {top: insets.top}]}>
-                <RedirectButtonComponent style={styles.moreDetails} href={{route: "AllRestaurants"}}>Bekijk Alle</RedirectButtonComponent>
+                <RedirectButtonComponent href={{route: "AllRestaurants"}}>Bekijk Alle</RedirectButtonComponent>
             </View>
             <MapView
                 userLocationPriority={"balanced"}

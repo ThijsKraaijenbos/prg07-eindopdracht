@@ -48,7 +48,7 @@ export default function ListItem({data}) {
 						<View style={styles.detailWrapper}>
 							<TagIcon size={16}/>
 							{data.tags.map((item, index) =>
-								<Tag key={index} size={12}>{item.tag_name}</Tag>
+								<Tag key={index} size={12} listItem={true}>{item.tag_name}</Tag>
 							)}
 						</View>
 					</View>
@@ -91,7 +91,8 @@ const styles = StyleSheet.create({
 		display: "flex",
 		flexDirection: "column",
 		fontFamily: 'Urbanist_500Medium',
-		padding: 8,
+		paddingTop: 8,
+		padding: 12,
 		borderRadius: 15,
 		boxShadow: '0 5 5 0 rgba(0,0,0,0.2)',
 		margin: 0,

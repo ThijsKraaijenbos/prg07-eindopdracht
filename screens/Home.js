@@ -80,7 +80,6 @@ export default function Home() {
                 style={[StyleSheet.absoluteFill, {height: 136}]}
             />
             <ScrollView
-                nestedScrollEnabled={true}
                 style={{
                     paddingLeft: 16,
                     paddingRight: 16,
@@ -96,7 +95,7 @@ export default function Home() {
                         <View style={styles.mainContentContainer}>
                             <DividerComponent />
                             <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Opgeslagen Locaties</Text>
-                            <ListContainer data={recommended}/>
+                            <ListContainer data={saved}/>
 
                             <DividerComponent />
                             <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Aanbevolen Locaties</Text>

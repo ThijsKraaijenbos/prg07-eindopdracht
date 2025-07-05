@@ -2,11 +2,11 @@ import {Text, StyleSheet, View} from 'react-native';
 import {LinearGradient} from "expo-linear-gradient";
 import React, {useContext} from "react";
 import {DarkModeContext} from "../context/DarkModeContext";
-export default function Tag({children, size}) {
+export default function Tag({children, size, listItem}) {
 	const {isDarkMode} = useContext(DarkModeContext)
 
 	return (
-		<View style={styles.wrapper}>
+		<View style={[styles.wrapper, {marginLeft: listItem ? 4 : 8}]}>
 		<LinearGradient
 			colors={isDarkMode ? ['hsl(0 0% 35%)', 'transparent', 'transparent'] : ['hsl(0 0% 100%)', 'transparent', 'transparent']}
 			style={styles.borderGradient}
@@ -18,7 +18,6 @@ export default function Tag({children, size}) {
 
 const styles = StyleSheet.create({
 	wrapper: {
-		marginLeft: 8,
 		alignItems: "center",
 	},
 	borderGradient: {
@@ -38,6 +37,5 @@ const styles = StyleSheet.create({
 		borderRadius: 100,
 		textAlign: "center",
 		zIndex: 5,
-		flex: 1,
 	}
 });

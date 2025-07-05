@@ -1,18 +1,24 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
-import {Pressable, TextInput, Text, StyleSheet, View, Switch} from "react-native";
+import {SafeAreaView, SafeAreaProvider, useSafeAreaInsets} from 'react-native-safe-area-context';
+import {Pressable, TextInput, Text, StyleSheet, View, Switch, Image, ActivityIndicator, ScrollView} from "react-native";
 import {DarkModeContext} from "../context/DarkModeContext";
 import {LinearGradient} from "expo-linear-gradient";
+import LocationIcon from "../components/icons/LocationIcon";
+import StarIcon from "../components/icons/StarIcon";
+import TagIcon from "../components/icons/TagIcon";
+import Tag from "../components/Tag";
+import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import {useNavigation} from "@react-navigation/native";
 
 export default function Detail({route}) {
     const { id } = route.params;
-
+    const [loading, setLoading] = useState(true)
+    const navigation = useNavigation()
     const [restaurant, setRestaurant] = useState({})
-    // console.log(route.params)
     const {isDarkMode} = useContext(DarkModeContext);
+    const insets = useSafeAreaInsets();
 
     useEffect( () => {
-        console.log(id)
         const fetchRestaurant = async () => {
             const response = await fetch(`http://145.24.223.116/api/restaurants/${id}?full_detail=true`, {
                 method: 'GET',
@@ -22,28 +28,96 @@ export default function Detail({route}) {
             })
 
             const data = await response.json()
-            console.log(data)
             setRestaurant(data)
+            setLoading(false)
         }
         fetchRestaurant()
     }, []);
 
+    useEffect(() => {
+        console.log(restaurant)
+    }, [restaurant]);
+
+    if (loading || !restaurant) {
+        return (
+            <View style={[styles.loading, { backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)" }]}>
+                <Text style={[styles.textLarge, { color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)' }]}>Loading Restaurant</Text>
+                <ActivityIndicator size={"large"} />
+            </View>
+        );
+    }
+
     return (
-        <SafeAreaProvider style={{backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)", paddingLeft: 16, paddingTop:8, paddingRight: 16}}>
+        <SafeAreaProvider style={{backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)"}}>
             <LinearGradient
                 colors={isDarkMode ? ['hsl(0 0% 25%)', 'transparent'] : ['hsl(0 0% 100%)', 'transparent']}
-                style={[StyleSheet.absoluteFill, {height: 136}]}
+                style={[StyleSheet.absoluteFill, {position: "absolute", top: 0, height: 136}]}
             />
-            <SafeAreaView>
-                <View>
-                    <Text>{restaurant.name}</Text>
-                </View>
-            </SafeAreaView>
+        <ScrollView style={{paddingLeft: 16, top: insets.top, paddingRight: 16}}>
+                <SafeAreaView>
+                        <Pressable style={styles.backButton} onPress={navigation.goBack}>
+                            <FontAwesome5Icon size={32} color={isDarkMode ? "hsl(45 100% 80%)" : "hsl(225 30% 40%)"} name={"chevron-left"}/>
+                        </Pressable>
+
+                        <View style={styles.details}>
+                            <Image
+                                style={styles.coverImage}
+                                source={{
+                                    uri: `${restaurant.img_url}`,
+                                }}
+                            />
+
+                            <Text
+                                style={[styles.textLarge, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}
+                            >{restaurant.name}</Text>
+                            <View style={[styles.line, {backgroundColor: isDarkMode ? 'hsl(0 0% 30%)' : 'hsl(0 0% 80%)' }]} />
+
+                            <View style={styles.detailContainer}>
+
+                                {/*Location pin*/}
+                                <View style={styles.detailWrapper}>
+                                    <LocationIcon size={24}/>
+                                    <Text style={[styles.infoText, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{restaurant.address}</Text>
+                                </View>
+
+                                {/*Star*/}
+                                <View style={styles.detailWrapper}>
+                                    <StarIcon size={24}/>
+                                    <Text style={[styles.infoText, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{restaurant.star_count}</Text>
+                                </View>
+
+                                <View style={styles.detailWrapper}>
+                                    <TagIcon size={24}/>
+                                    {restaurant.tags.map((item, index) =>
+                                        <Tag key={index} size={16}>{item.tag_name}</Tag>
+                                    )}
+                                </View>
+                                <View style={[styles.line, {backgroundColor: isDarkMode ? 'hsl(0 0% 30%)' : 'hsl(0 0% 80%)' }]} />
+                                <View>
+                                    <Text style={[styles.descriptionHeader, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Beschrijving</Text>
+                                    <Text style={[styles.description, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{restaurant.description}</Text>
+                                </View>
+                            </View>
+                        </View>
+                </SafeAreaView>
+        </ScrollView>
         </SafeAreaProvider>
     );
 };
 
 const styles = StyleSheet.create({
+
+    textLarge: {
+        fontFamily: 'Urbanist_700Bold',
+        fontSize: 32,
+        textAlign: "center",
+    },
+    loading : {
+        flex: 1,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
     textMedium: {
         fontFamily: 'Urbanist_500Medium',
         fontSize: 24
@@ -55,13 +129,9 @@ const styles = StyleSheet.create({
         gap: 6
     },
 
-    // button: {
-    //     marginTop: 10,
-    //     backgroundColor: "#87ceeb",
-    //     padding: 10,
-    //     borderRadius: 5,
-    //     fontWeight: "bold"
-    // },
+    backButton: {
+        position:"absolute"
+    },
     textInput: {
         backgroundColor: "#ebebeb",
         borderRadius: 10,
@@ -72,4 +142,59 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center"
     },
+
+    line: {
+        height: 2,
+        width: "90%",
+        margin: 0,
+        marginVertical: 8,
+        alignSelf:"center",
+        borderRadius: 100
+    },
+
+    details: {
+        display: "flex",
+        flexDirection: "column",
+    },
+
+    coverImage: {
+        width: "100%",
+        height: 240,
+        borderRadius: 8,
+        boxShadow: '0 5 5 0 rgba(0,0,0,0.2)',
+        marginTop: 16
+    },
+
+    infoText: {
+        marginLeft: 8,
+        maxWidth: "70%",
+        fontFamily: 'Urbanist_500Medium',
+        fontSize: 24
+    },
+    heading: {
+        fontFamily: 'Urbanist_600SemiBold',
+        fontSize: 20,
+        textAlign: "center"
+    },
+
+    detailContainer: {
+        display: "flex",
+        position: "relative",
+        flexDirection: "column",
+    },
+    detailWrapper: {
+        display: "flex",
+        flexDirection: "row",
+        marginBottom: 4,
+        alignItems: "center",
+    },
+    descriptionHeader: {
+        fontFamily: 'Urbanist_700Bold',
+        fontSize: 24,
+    },
+    description: {
+        marginTop: 4,
+        fontFamily: 'Urbanist_500Medium',
+        fontSize: 16,
+    }
 })

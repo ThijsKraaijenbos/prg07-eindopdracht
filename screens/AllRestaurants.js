@@ -30,9 +30,6 @@ export default function AllRestaurants() {
         }, [])
     );
 
-    useEffect(() => {
-        console.log(restaurants)
-    }, [restaurants]);
 
     if (loading || !restaurants) {
         return (
