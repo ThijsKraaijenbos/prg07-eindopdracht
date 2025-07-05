@@ -1,5 +1,5 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
+import {SafeAreaProvider, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Text, StyleSheet, View, FlatList, ActivityIndicator, Pressable,} from "react-native";
 import {DarkModeContext} from "../context/DarkModeContext";
 import ListItem from "../components/ListItem";
@@ -11,6 +11,7 @@ export default function AllRestaurants() {
     const [loading, setLoading] = useState(true)
     const {isDarkMode} = useContext(DarkModeContext);
     const navigation = useNavigation()
+    const insets = useSafeAreaInsets();
 
     useFocusEffect(
         useCallback(() => {
@@ -41,18 +42,26 @@ export default function AllRestaurants() {
     }
 
     return (
-        <SafeAreaProvider style={{backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)"}}>
-            <Pressable onPress={navigation.goBack}>
-                <FontAwesome5Icon size={32} color={isDarkMode ? "hsl(45 100% 80%)" : "hsl(225 30% 40%)"} name={"chevron-left"}/>
-            </Pressable>
-            <SafeAreaView style={{paddingLeft: 16, paddingTop:8, paddingRight: 16}}>
-                <FlatList
-                    data={restaurants}
-                    renderItem={({item}) => <ListItem data={item}/>}
-                    keyExtractor={item => item.id}
-                />
-            </SafeAreaView>
+        <SafeAreaProvider style={{ flex: 1, backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)" }}>
+            <FlatList
+                data={restaurants}
+                contentContainerStyle={{
+                    paddingBottom: insets.bottom + 16,
+                }}
+                ListHeaderComponent={
+                    <Pressable style={{ zIndex: 10, marginLeft: 16, marginBottom: 16, marginTop: insets.top }} onPress={navigation.goBack}>
+                        <FontAwesome5Icon
+                            size={32}
+                            color={isDarkMode ? "hsl(45 100% 80%)" : "hsl(225 30% 40%)"}
+                            name={"chevron-left"}
+                        />
+                    </Pressable>
+                }
+                renderItem={({ item }) => <ListItem data={item} />}
+                keyExtractor={item => item.id}
+            />
         </SafeAreaProvider>
+
     );
 };
 
@@ -68,16 +77,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    textMedium: {
-        fontFamily: 'Urbanist_500Medium',
-        fontSize: 24
-    },
-    container: {
-        display: "flex",
-        alignItems: "flex-start",
-        width: "100%",
-        gap: 6
-    },
 
     // button: {
     //     marginTop: 10,
@@ -86,14 +85,4 @@ const styles = StyleSheet.create({
     //     borderRadius: 5,
     //     fontWeight: "bold"
     // },
-    textInput: {
-        backgroundColor: "#ebebeb",
-        borderRadius: 10,
-        width: "50%"
-    },
-    dmSwitchWrapper: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center"
-    },
 })
