@@ -12,6 +12,7 @@ import MaterialIcons from '@react-native-vector-icons/material-icons';
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import asyncStorage from "@react-native-async-storage/async-storage/src/AsyncStorage";
+import ButtonComponent from "../components/ButtonComponent";
 
 export default function Detail({route}) {
     const { id } = route.params;
@@ -102,7 +103,7 @@ export default function Detail({route}) {
                 style={[StyleSheet.absoluteFill, {position: "absolute", top: 0, height: 136}]}
             />
             <ScrollView style={{paddingLeft: 16, paddingRight: 16}}>
-                <SafeAreaView style={{top: insets.top}}>
+                <SafeAreaView style={{top: insets.top, paddingBottom: insets.top + 32}}>
                         <Pressable style={styles.backButton} onPress={navigation.goBack}>
                             <FontAwesome5Icon size={32} color={isDarkMode ? "hsl(45 100% 80%)" : "hsl(225 30% 40%)"} name={"chevron-left"}/>
                         </Pressable>

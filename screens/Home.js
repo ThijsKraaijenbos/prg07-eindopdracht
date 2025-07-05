@@ -65,7 +65,6 @@ export default function Home() {
     }
 
     useEffect( () => {
-        console.log("useeffect trigghered")
         async function filter(){
             const response = await fetch(`http://145.24.223.116/api/restaurants?filter=${filterValue}&full_detail=true`, {
                 method: 'GET',

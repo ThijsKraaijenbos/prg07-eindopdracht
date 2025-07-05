@@ -41,12 +41,11 @@ export default function AllRestaurants() {
     }
 
     return (
-        <SafeAreaProvider style={{backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)", paddingLeft: 16, paddingTop:8, paddingRight: 16}}>
-            <SafeAreaView>
-                <Pressable onPress={navigation.goBack}>
-                    <FontAwesome5Icon size={32} color={isDarkMode ? "hsl(45 100% 80%)" : "hsl(225 30% 40%)"} name={"chevron-left"}/>
-                </Pressable>
-
+        <SafeAreaProvider style={{backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)"}}>
+            <Pressable onPress={navigation.goBack}>
+                <FontAwesome5Icon size={32} color={isDarkMode ? "hsl(45 100% 80%)" : "hsl(225 30% 40%)"} name={"chevron-left"}/>
+            </Pressable>
+            <SafeAreaView style={{paddingLeft: 16, paddingTop:8, paddingRight: 16}}>
                 <FlatList
                     data={restaurants}
                     renderItem={({item}) => <ListItem data={item}/>}
