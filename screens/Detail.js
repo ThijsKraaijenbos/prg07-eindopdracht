@@ -101,8 +101,8 @@ export default function Detail({route}) {
                 colors={isDarkMode ? ['hsl(0 0% 25%)', 'transparent'] : ['hsl(0 0% 100%)', 'transparent']}
                 style={[StyleSheet.absoluteFill, {position: "absolute", top: 0, height: 136}]}
             />
-            <ScrollView style={{paddingLeft: 16, top: insets.top, paddingRight: 16}}>
-                <SafeAreaView>
+            <ScrollView style={{paddingLeft: 16, paddingRight: 16}}>
+                <SafeAreaView style={{top: insets.top}}>
                         <Pressable style={styles.backButton} onPress={navigation.goBack}>
                             <FontAwesome5Icon size={32} color={isDarkMode ? "hsl(45 100% 80%)" : "hsl(225 30% 40%)"} name={"chevron-left"}/>
                         </Pressable>

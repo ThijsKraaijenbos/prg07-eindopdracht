@@ -1,5 +1,5 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {Text, StyleSheet, View, ScrollView} from 'react-native';
+import {Text, StyleSheet, View, ScrollView, FlatList} from 'react-native';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useFocusEffect} from "@react-navigation/native";
@@ -9,13 +9,15 @@ import ListContainer from "../components/ListContainer";
 import InputField from "../components/InputField";
 import {DarkModeContext} from "../context/DarkModeContext";
 import SearchIcon from "../components/icons/SearchIcon";
+import ListItem from "../components/ListItem";
 
 export default function Home() {
-
     const [timeValue, setTimeValue] = useState("")
     const [nameValue, setNameValue] = useState("")
     const [recommended, setRecommended] = useState([])
     const [favorites, setFavorites] = useState([])
+    const [filterValue, setFilterValue] = useState("");
+    const [filteredRestaurants, setFilteredRestaurants] = useState([]);
     const {isDarkMode} = useContext(DarkModeContext);
 
     async function getRecommendedLocations() {
@@ -27,17 +29,12 @@ export default function Home() {
         })
 
         const data = await response.json()
-        const locations = data.map(item => ({
-            id: item.id,
-            name: item.name,
-            star_count: item.star_count,
-            address: item.address,
-            tags: item.tags,
-            img_url: item.img_url
-        }));
-        setRecommended(locations);
+        setRecommended(data);
     }
 
+    //get the 3 recommended locations from backend only when the app first opens
+    //because of the way useeffect works with the bottomtabnavigator the useeffect only happens once and
+    //then never again until you restart the app
     useEffect(() => {
         getRecommendedLocations()
     }, []);
@@ -62,6 +59,28 @@ export default function Home() {
             getTime()
         }, [])
     )
+
+    const search = async (text) => {
+        setFilterValue(text);
+    }
+
+    useEffect( () => {
+        console.log("useeffect trigghered")
+        async function filter(){
+            const response = await fetch(`http://145.24.223.116/api/restaurants?filter=${filterValue}&full_detail=true`, {
+                method: 'GET',
+                headers: {
+                    'Accept' : "application/json"
+                }
+            })
+
+            const data = await response.json()
+            setFilteredRestaurants(data);
+            // console.log(filteredRestaurants)
+        }
+        filter()
+    }, [filterValue]);
+
 
     //return appropriate message depending on time of day
     //make sure to add multi language support here if theres time
@@ -94,17 +113,39 @@ export default function Home() {
                 <SafeAreaView>
                     <Text style={[styles.textMedium, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}, {marginLeft: 8}]}>{timeValue}, {nameValue}</Text>
 
-                    <InputField placeholderText={"Zoek een locatie..."}>
+                    <InputField
+                        onChange={search}
+                        placeholderText={"Zoek een locatie..."}>
                         <SearchIcon size={36}/>
                     </InputField>
                         <View style={styles.mainContentContainer}>
-                            <DividerComponent />
-                            <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Favoriete Locaties</Text>
-                            <ListContainer data={favorites}/>
 
                             <DividerComponent />
-                            <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Aanbevolen Locaties</Text>
-                            <ListContainer data={recommended}/>
+                            {filterValue.length > 0 ? (
+                                filteredRestaurants.length > 0 ? (
+                                    <>
+                                        <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Zoekresultaten</Text>
+                                        <FlatList
+                                            style={styles.filtered}
+                                            scrollEnabled={false}
+                                            data={filteredRestaurants}
+                                            renderItem={({item}) => <ListItem data={item}/>}
+                                            keyExtractor={item => item.id}
+                                        />
+                                    </>
+                                ) : (
+                                    <Text style={{color: isDarkMode ? 'white' : 'black', marginTop: 16}}>Geen resultaten gevonden.</Text>
+                                )
+                            ) :  (
+                                <>
+                                    <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Favoriete Locaties</Text>
+                                    <ListContainer data={favorites}/>
+
+                                    <DividerComponent />
+                                    <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Aanbevolen Locaties</Text>
+                                    <ListContainer data={recommended}/>
+                                </>
+                            )}
                         </View>
                 </SafeAreaView>
             </ScrollView>
@@ -128,4 +169,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
     },
+    filtered: {
+        width: "100%"
+    }
 });

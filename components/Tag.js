@@ -6,7 +6,7 @@ export default function Tag({children, size, listItem}) {
 	const {isDarkMode} = useContext(DarkModeContext)
 
 	return (
-		<View style={[styles.wrapper, {marginLeft: listItem ? 4 : 8}]}>
+		<View style={[styles.wrapper, {marginLeft: listItem ? 4 : 8, marginRight: listItem ? 4 : 0}]}>
 		<LinearGradient
 			colors={isDarkMode ? ['hsl(0 0% 35%)', 'transparent', 'transparent'] : ['hsl(0 0% 100%)', 'transparent', 'transparent']}
 			style={styles.borderGradient}

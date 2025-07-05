@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useCallback, useContext} from 'react';
 import MapView, {Marker} from 'react-native-maps';
 import { useState, useEffect } from 'react';
 import {Text, View, StyleSheet, ActivityIndicator} from 'react-native';
@@ -15,7 +15,7 @@ import {useSafeAreaInsets} from "react-native-safe-area-context";
 import LocationIcon from "../components/icons/LocationIcon";
 import TagIcon from "../components/icons/TagIcon";
 import StarIcon from "../components/icons/StarIcon";
-import {useNavigation} from "@react-navigation/native";
+import {useFocusEffect, useNavigation} from "@react-navigation/native";
 
 export default function Search() {
     const [location, setLocation] = useState();
@@ -69,10 +69,12 @@ export default function Search() {
         setMarkers(data);
     }
 
-    useEffect(() => {
-        getCurrentLocation();
-        getAllLocations()
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            getCurrentLocation();
+            getAllLocations()
+        }, [])
+    );
 
     if (loading || !location) {
         return (
@@ -89,6 +91,7 @@ export default function Search() {
                 <ButtonComponent onPress={() => navigation.navigate("AllRestaurants")}>Bekijk Alle</ButtonComponent>
             </View>
             <MapView
+                showsCompass={false}
                 userLocationPriority={"balanced"}
                 showsUserLocation={true}
                 customMapStyle={isDarkMode ? darkMapStyle : lightMapStyle}

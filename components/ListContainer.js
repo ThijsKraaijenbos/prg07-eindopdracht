@@ -5,7 +5,6 @@ import {DarkModeContext} from "../context/DarkModeContext";
 import ListItem from "./ListItem";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 export default function ListContainer({data}) {
-	console.log(data)
 	const [toggled, setToggled] = useState(false)
 	const {isDarkMode} = useContext(DarkModeContext)
 	return (
