@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {SafeAreaView, SafeAreaProvider, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {Pressable, TextInput, Text, StyleSheet, View, Switch, Image, ActivityIndicator, ScrollView} from "react-native";
 import {DarkModeContext} from "../context/DarkModeContext";
@@ -8,15 +8,20 @@ import StarIcon from "../components/icons/StarIcon";
 import TagIcon from "../components/icons/TagIcon";
 import Tag from "../components/Tag";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-import {useNavigation} from "@react-navigation/native";
+import MaterialIcons from '@react-native-vector-icons/material-icons';
+import {useFocusEffect, useNavigation} from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import asyncStorage from "@react-native-async-storage/async-storage/src/AsyncStorage";
 
 export default function Detail({route}) {
     const { id } = route.params;
     const [loading, setLoading] = useState(true)
-    const navigation = useNavigation()
     const [restaurant, setRestaurant] = useState({})
+    const [favorite, setFavorite] = useState(false)
+    const navigation = useNavigation()
     const {isDarkMode} = useContext(DarkModeContext);
     const insets = useSafeAreaInsets();
+
 
     useEffect( () => {
         const fetchRestaurant = async () => {
@@ -31,12 +36,50 @@ export default function Detail({route}) {
             setRestaurant(data)
             setLoading(false)
         }
+        async function fetchData() {
+            try {
+                const favorites = await AsyncStorage.getItem('favorites');
+                if (!JSON.parse(favorites)) {
+                    await AsyncStorage.setItem('favorites', JSON.stringify([]));
+                }
+                if (favorites.includes(id)) {
+                    setFavorite(true)
+                }
+            } catch (e) {
+                console.log(e)
+            }
+        }
         fetchRestaurant()
+        fetchData()
     }, []);
 
-    useEffect(() => {
-        console.log(restaurant)
-    }, [restaurant]);
+    const handleFavorite = async () => {
+        try {
+            const favorites = await AsyncStorage.getItem('favorites');
+            let updatedFavorites;
+
+            const parsedFavorites = JSON.parse(favorites);
+            if (favorite) {
+                updatedFavorites = parsedFavorites.filter(item => item.id === restaurant.id);
+            } else {
+                const current =
+                    {
+                        id: restaurant.id,
+                        name: restaurant.name,
+                        address: restaurant.address,
+                        star_count: restaurant.star_count,
+                        img_url: restaurant.img_url,
+                        tags: restaurant.tags,
+                    }
+                updatedFavorites = [...parsedFavorites, current];
+            }
+            await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+            setFavorite(!favorite);
+        } catch (e) {
+            console.log(e)
+        }
+        setFavorite(!favorite)
+    }
 
     if (loading || !restaurant) {
         return (
@@ -53,7 +96,7 @@ export default function Detail({route}) {
                 colors={isDarkMode ? ['hsl(0 0% 25%)', 'transparent'] : ['hsl(0 0% 100%)', 'transparent']}
                 style={[StyleSheet.absoluteFill, {position: "absolute", top: 0, height: 136}]}
             />
-        <ScrollView style={{paddingLeft: 16, top: insets.top, paddingRight: 16}}>
+            <ScrollView style={{paddingLeft: 16, top: insets.top, paddingRight: 16}}>
                 <SafeAreaView>
                         <Pressable style={styles.backButton} onPress={navigation.goBack}>
                             <FontAwesome5Icon size={32} color={isDarkMode ? "hsl(45 100% 80%)" : "hsl(225 30% 40%)"} name={"chevron-left"}/>
@@ -99,8 +142,15 @@ export default function Detail({route}) {
                                 <Text style={[styles.description, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}]}>{restaurant.description}</Text>
                             </View>
                         </View>
+                    <Pressable onPress={handleFavorite} style={styles.favoriteButton}>
+                        {favorite ? (
+                            <MaterialIcons size={32} color={isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'} name={"favorite"}/>
+                        ) : (
+                            <MaterialIcons size={32} color={isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'} name={"favorite-outline"}/>
+                        )}
+                    </Pressable>
                 </SafeAreaView>
-        </ScrollView>
+            </ScrollView>
         </SafeAreaProvider>
     );
 };
@@ -197,5 +247,8 @@ const styles = StyleSheet.create({
         marginTop: 4,
         fontFamily: 'Urbanist_500Medium',
         fontSize: 16,
+    },
+    favoriteButton: {
+        alignSelf: "flex-start"
     }
 })

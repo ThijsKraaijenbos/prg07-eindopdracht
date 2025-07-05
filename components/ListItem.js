@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
 	listItemWrapper: {
 		position: "relative",
 		paddingVertical: 16,
+		width: "90%",
 		alignSelf: "center",
 		margin: -8 //had to add this here because the padding causes insanely wonky behavior and for some reason adds a margin as well
 	},

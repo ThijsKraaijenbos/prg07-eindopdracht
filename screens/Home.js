@@ -15,7 +15,7 @@ export default function Home() {
     const [timeValue, setTimeValue] = useState("")
     const [nameValue, setNameValue] = useState("")
     const [recommended, setRecommended] = useState([])
-    const [saved, setSaved] = useState([])
+    const [favorites, setFavorites] = useState([])
     const {isDarkMode} = useContext(DarkModeContext);
 
     async function getRecommendedLocations() {
@@ -46,11 +46,14 @@ export default function Home() {
         useCallback(() => {
             async function fetchData() {
                 try {
+                    // await AsyncStorage.removeItem("favorites")
                     const name = await AsyncStorage.getItem('username');
-                    const saved = await AsyncStorage.getItem('saved_locations');
+                    const favorites = await AsyncStorage.getItem('favorites');
+                    console.log(favorites);
                     const parsedName = JSON.parse(name)
+                    const parsedFavorites = JSON.parse(favorites)
                     setNameValue(parsedName ? parsedName : "Gebruiker")
-                    setSaved(saved)
+                    setFavorites(parsedFavorites)
                 } catch (e) {
                     console.log(e)
                 }
@@ -98,7 +101,7 @@ export default function Home() {
                         <View style={styles.mainContentContainer}>
                             <DividerComponent />
                             <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Opgeslagen Locaties</Text>
-                            <ListContainer data={saved}/>
+                            <ListContainer data={favorites}/>
 
                             <DividerComponent />
                             <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Aanbevolen Locaties</Text>

@@ -1,22 +1,21 @@
 import React, {useContext} from 'react';
 import MapView, {Marker} from 'react-native-maps';
-import { useState, useEffect, useRef } from 'react';
-import {Text, View, StyleSheet, ActivityIndicator, Pressable} from 'react-native';
+import { useState, useEffect } from 'react';
+import {Text, View, StyleSheet, ActivityIndicator} from 'react-native';
 import darkMapStyle from '../assets/darkMapStyle.json';
 import lightMapStyle from '../assets/lightMapStyle.json';
 
 import * as Location from 'expo-location';
-import {useFocusEffect} from "@react-navigation/native";
 import DividerComponent from "../components/DividerComponent";
-import Svg, {Path} from "react-native-svg";
 import Tag from "../components/Tag";
 import {LinearGradient} from "expo-linear-gradient";
 import {DarkModeContext} from "../context/DarkModeContext";
-import RedirectButtonComponent from "../components/RedirectButtonComponent";
-import {SafeAreaProvider, useSafeAreaInsets} from "react-native-safe-area-context";
+import ButtonComponent from "../components/ButtonComponent";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 import LocationIcon from "../components/icons/LocationIcon";
 import TagIcon from "../components/icons/TagIcon";
 import StarIcon from "../components/icons/StarIcon";
+import {useNavigation} from "@react-navigation/native";
 
 export default function Search() {
     const [location, setLocation] = useState();
@@ -26,6 +25,7 @@ export default function Search() {
     const [selectedMarker, setSelectedMarker] = useState(null);
     const {isDarkMode} = useContext(DarkModeContext)
     const insets = useSafeAreaInsets();
+    const navigation = useNavigation();
 
     async function getCurrentLocation() {
         try {
@@ -86,7 +86,7 @@ export default function Search() {
     return (
         <View style={[styles.container, { backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)" }]}>
             <View style={[styles.topButton, {top: insets.top}]}>
-                <RedirectButtonComponent href={{route: "AllRestaurants"}}>Bekijk Alle</RedirectButtonComponent>
+                <ButtonComponent onPress={() => navigation.navigate("AllRestaurants")}>Bekijk Alle</ButtonComponent>
             </View>
             <MapView
                 userLocationPriority={"balanced"}
@@ -154,7 +154,7 @@ export default function Search() {
                                 )}
                             </View>
                             <View style={styles.detailLeft}>
-                                <RedirectButtonComponent href={{ route: 'Detail', params: { id: selectedMarker.id } }}>Meer details</RedirectButtonComponent>
+                                <ButtonComponent onPress={() => navigation.navigate("Detail", {id: selectedMarker.id})}>Meer details</ButtonComponent>
                             </View>
                         </View>
                     </View>
@@ -238,6 +238,6 @@ const styles = StyleSheet.create({
     detailLeft: {
         position: "absolute",
         bottom: 0,
-        alignSelf: "flex-end", // or "center"
+        alignSelf: "flex-end",
     },
 });

@@ -2,13 +2,11 @@ import {Text, StyleSheet, Pressable} from 'react-native';
 import {LinearGradient} from "expo-linear-gradient";
 import React, {useContext} from "react";
 import {DarkModeContext} from "../context/DarkModeContext";
-import {useNavigation} from "@react-navigation/native";
-export default function RedirectButtonComponent({children, href}) {
-	const navigation = useNavigation();
+export default function ButtonComponent({children, onPress}) {
 	const {isDarkMode} = useContext(DarkModeContext)
 
 	return (
-		<Pressable style={styles.wrapper} onPress={() => navigation.navigate(href.route, href.params)}>
+		<Pressable style={styles.wrapper} onPress={onPress}>
 			<LinearGradient
 				colors={isDarkMode ? ['hsl(225 80% 80%)', 'transparent', 'transparent'] : ['hsl(0 0% 100%)', 'transparent', 'transparent']}
 				style={styles.borderGradient}
@@ -20,7 +18,6 @@ export default function RedirectButtonComponent({children, href}) {
 
 const styles = StyleSheet.create({
 	wrapper: {
-		marginLeft: 8,
 		alignItems: "center",
 		justifyContent: "center",
 	},

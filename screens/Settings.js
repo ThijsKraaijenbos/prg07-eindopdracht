@@ -32,7 +32,6 @@ export default function Settings() {
 
     const updateNameText = async (text) => {
         setNameValue(prevState => {
-            // Save to AsyncStorage with the new value
             AsyncStorage.setItem('username', JSON.stringify(text));
             return text;
         });

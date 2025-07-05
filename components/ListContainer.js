@@ -5,6 +5,7 @@ import {DarkModeContext} from "../context/DarkModeContext";
 import ListItem from "./ListItem";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 export default function ListContainer({data}) {
+	console.log(data)
 	const [toggled, setToggled] = useState(false)
 	const {isDarkMode} = useContext(DarkModeContext)
 	return (
@@ -14,7 +15,7 @@ export default function ListContainer({data}) {
 				style={styles.borderGradient}
 			/>
 			<View style={[styles.listContainer, {backgroundColor: isDarkMode ? "hsl(0 0% 20%)" : "hsl(0 0% 90%)"}]}>
-				{!data ? (
+				{data.length === 0 || !data ? (
 					<Text style={[styles.textMedium, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}]}>Geen locaties gevonden</Text>
 				) : (
 					toggled ? (
