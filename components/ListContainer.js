@@ -15,7 +15,7 @@ export default function ListContainer({data}) {
 				style={styles.borderGradient}
 			/>
 			<View style={[styles.listContainer, {backgroundColor: isDarkMode ? "hsl(0 0% 20%)" : "hsl(0 0% 90%)"}]}>
-				{data.length === 0 || !data ? (
+				{!data || data.length === 0 ? (
 					<Text style={[styles.textMedium, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}]}>Geen locaties gevonden</Text>
 				) : (
 					toggled ? (

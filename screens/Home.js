@@ -49,7 +49,6 @@ export default function Home() {
                     // await AsyncStorage.removeItem("favorites")
                     const name = await AsyncStorage.getItem('username');
                     const favorites = await AsyncStorage.getItem('favorites');
-                    console.log(favorites);
                     const parsedName = JSON.parse(name)
                     const parsedFavorites = JSON.parse(favorites)
                     setNameValue(parsedName ? parsedName : "Gebruiker")

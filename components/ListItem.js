@@ -6,7 +6,6 @@ import LocationIcon from "./icons/LocationIcon";
 import Tag from "./Tag";
 import StarIcon from "./icons/StarIcon";
 import TagIcon from "./icons/TagIcon";
-import DividerComponent from "./DividerComponent";
 import {useNavigation} from "@react-navigation/native";
 export default function ListItem({data}) {
 	const { id } = data

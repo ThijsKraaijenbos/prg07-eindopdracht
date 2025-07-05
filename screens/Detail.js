@@ -39,12 +39,15 @@ export default function Detail({route}) {
         async function fetchData() {
             try {
                 const favorites = await AsyncStorage.getItem('favorites');
-                if (!JSON.parse(favorites)) {
+                let parsedFavorites = JSON.parse(favorites);
+                const isFavorite = parsedFavorites.some(item => item.id === id);
+
+                if (!parsedFavorites) {
                     await AsyncStorage.setItem('favorites', JSON.stringify([]));
                 }
-                if (favorites.includes(id)) {
-                    setFavorite(true)
-                }
+
+                setFavorite(isFavorite);
+
             } catch (e) {
                 console.log(e)
             }
@@ -58,28 +61,30 @@ export default function Detail({route}) {
             const favorites = await AsyncStorage.getItem('favorites');
             let updatedFavorites;
 
-            const parsedFavorites = JSON.parse(favorites);
+            const parsedFavorites = JSON.parse(favorites) || [];
+
             if (favorite) {
-                updatedFavorites = parsedFavorites.filter(item => item.id === restaurant.id);
+                // Remove restaurant by ID
+                updatedFavorites = parsedFavorites.filter(item => item.id !== restaurant.id);
             } else {
-                const current =
-                    {
-                        id: restaurant.id,
-                        name: restaurant.name,
-                        address: restaurant.address,
-                        star_count: restaurant.star_count,
-                        img_url: restaurant.img_url,
-                        tags: restaurant.tags,
-                    }
+                const current = {
+                    id: restaurant.id,
+                    name: restaurant.name,
+                    address: restaurant.address,
+                    star_count: restaurant.star_count,
+                    img_url: restaurant.img_url,
+                    tags: restaurant.tags,
+                };
                 updatedFavorites = [...parsedFavorites, current];
             }
+
             await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
             setFavorite(!favorite);
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
-        setFavorite(!favorite)
-    }
+    };
+
 
     if (loading || !restaurant) {
         return (
