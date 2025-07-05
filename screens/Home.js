@@ -107,7 +107,7 @@ export default function Home() {
                     paddingLeft: 16,
                     paddingRight: 16,
                 }}
-                contentContainerStyle={{paddingBottom: 80}}
+                contentContainerStyle={{paddingBottom: 120}}
             >
                 <SafeAreaView>
                     <Text style={[styles.textMedium, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}, {marginLeft: 8}]}>{timeValue}, {nameValue}</Text>
