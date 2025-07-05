@@ -107,6 +107,14 @@ export default function Detail({route}) {
                             <FontAwesome5Icon size={32} color={isDarkMode ? "hsl(45 100% 80%)" : "hsl(225 30% 40%)"} name={"chevron-left"}/>
                         </Pressable>
 
+                    <Pressable onPress={handleFavorite} style={styles.favoriteButton}>
+                        {favorite ? (
+                            <MaterialIcons size={40} color={isDarkMode ? 'hsl(0, 85%, 60%)' : 'hsl(0, 85%, 60%)'} name={"favorite"}/>
+                        ) : (
+                            <MaterialIcons size={40} color={isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'} name={"favorite-outline"}/>
+                        )}
+                    </Pressable>
+
                         <View style={styles.details}>
                             <Image
                                 style={styles.coverImage}
@@ -147,13 +155,6 @@ export default function Detail({route}) {
                                 <Text style={[styles.description, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}]}>{restaurant.description}</Text>
                             </View>
                         </View>
-                    <Pressable onPress={handleFavorite} style={styles.favoriteButton}>
-                        {favorite ? (
-                            <MaterialIcons size={32} color={isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'} name={"favorite"}/>
-                        ) : (
-                            <MaterialIcons size={32} color={isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'} name={"favorite-outline"}/>
-                        )}
-                    </Pressable>
                 </SafeAreaView>
             </ScrollView>
         </SafeAreaProvider>
@@ -254,6 +255,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     favoriteButton: {
-        alignSelf: "flex-start"
+        position: "absolute",
+        right: 0
     }
 })

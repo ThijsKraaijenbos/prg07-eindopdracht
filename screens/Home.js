@@ -99,7 +99,7 @@ export default function Home() {
                     </InputField>
                         <View style={styles.mainContentContainer}>
                             <DividerComponent />
-                            <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Opgeslagen Locaties</Text>
+                            <Text style={[styles.textSemiBold, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Favoriete Locaties</Text>
                             <ListContainer data={favorites}/>
 
                             <DividerComponent />
