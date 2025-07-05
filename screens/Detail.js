@@ -156,6 +156,18 @@ export default function Detail({route}) {
                                 <Text style={[styles.description, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}]}>{restaurant.description}</Text>
                             </View>
                         </View>
+                    <View style={{alignItems: "flex-start", marginTop: 16}}>
+                        <ButtonComponent onPress={() => navigation.navigate('BottomTabs', {
+                            screen: 'Search',
+                            params: {
+                                selectedRestaurant: {
+                                    id: restaurant.id,
+                                    latitude: restaurant.latitude,
+                                    longitude: restaurant.longitude,
+                                },
+                            },
+                        })}>Bekijk op kaart</ButtonComponent>
+                    </View>
                 </SafeAreaView>
             </ScrollView>
         </SafeAreaProvider>

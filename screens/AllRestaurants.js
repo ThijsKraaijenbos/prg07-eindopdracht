@@ -5,6 +5,7 @@ import {DarkModeContext} from "../context/DarkModeContext";
 import ListItem from "../components/ListItem";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import {LinearGradient} from "expo-linear-gradient";
 
 export default function AllRestaurants() {
     const [restaurants, setRestaurants] = useState([])
@@ -43,6 +44,10 @@ export default function AllRestaurants() {
 
     return (
         <SafeAreaProvider style={{ flex: 1, backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)" }}>
+            <LinearGradient
+                colors={isDarkMode ? ['hsl(0 0% 25%)', 'transparent'] : ['hsl(0 0% 100%)', 'transparent']}
+                style={[StyleSheet.absoluteFill, {height: 136}]}
+            />
             <FlatList
                 data={restaurants}
                 contentContainerStyle={{

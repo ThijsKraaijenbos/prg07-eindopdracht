@@ -1,7 +1,6 @@
-import React, {useCallback, useContext} from 'react';
+import React, {useCallback, useContext, useState, useEffect} from 'react';
 import MapView, {Marker} from 'react-native-maps';
-import { useState, useEffect } from 'react';
-import {Text, View, StyleSheet, ActivityIndicator} from 'react-native';
+import {Text, View, StyleSheet, ActivityIndicator, Pressable} from 'react-native';
 import darkMapStyle from '../assets/darkMapStyle.json';
 import lightMapStyle from '../assets/lightMapStyle.json';
 
@@ -17,7 +16,7 @@ import TagIcon from "../components/icons/TagIcon";
 import StarIcon from "../components/icons/StarIcon";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 
-export default function Search() {
+export default function Search({route}) {
     const [location, setLocation] = useState();
     const [loading, setLoading] = useState(true)
     const [errorMsg, setErrorMsg] = useState();
@@ -26,6 +25,7 @@ export default function Search() {
     const {isDarkMode} = useContext(DarkModeContext)
     const insets = useSafeAreaInsets();
     const navigation = useNavigation();
+    let {selectedRestaurant} = route.params ?? {}
 
     async function getCurrentLocation() {
         try {
@@ -54,6 +54,7 @@ export default function Search() {
             console.log(e)
         } finally {
             setLoading(false)
+
         }
     }
 
@@ -67,14 +68,31 @@ export default function Search() {
 
         const data = await response.json()
         setMarkers(data);
+
     }
 
     useFocusEffect(
         useCallback(() => {
             getCurrentLocation();
             getAllLocations()
+
+            return () => {
+                // When screen is unfocused, clear selection and params
+                setSelectedMarker(null);
+                navigation.setParams({ selectedRestaurant: undefined });
+            };
         }, [])
     );
+
+    useEffect(() => {
+        if (selectedRestaurant === undefined) {
+            return
+        }
+        const found = markers.find(marker => marker.id === selectedRestaurant.id);
+        if (found) {
+            setSelectedMarker(found);
+        }
+    }, [markers]);
 
     if (loading || !location) {
         return (
@@ -90,39 +108,44 @@ export default function Search() {
             <View style={[styles.topButton, {top: insets.top}]}>
                 <ButtonComponent onPress={() => navigation.navigate("AllRestaurants")}>Bekijk Alle</ButtonComponent>
             </View>
-            <MapView
-                showsCompass={false}
-                userLocationPriority={"balanced"}
-                showsUserLocation={true}
-                customMapStyle={isDarkMode ? darkMapStyle : lightMapStyle}
-                initialRegion={
-                    location
-                        ? {
-                            longitude: location.longitude,
-                            latitude: location.latitude,
-                            latitudeDelta: 0.005,
-                            longitudeDelta: 0.005,
-                        }
-                        : undefined
-                }
-                region={location}
-                style={styles.map}
-                showsMyLocationButton={false}
-            >
-                {markers.map((item, index) =>
-                    <Marker
-                        key={index}
-                        title={item.name}
-                        coordinate={{
-                            longitude: item.longitude,
-                            latitude: item.latitude,
-                        }}
-                        onDeselect={() => setSelectedMarker(null)}
-                        onSelect={() => setSelectedMarker(item)}
-                    />
-                )}
+            <Pressable onPress={() => setSelectedMarker(null)}>
+                <MapView
+                    showsCompass={false}
+                    userLocationPriority={"balanced"}
+                    showsUserLocation={true}
+                    customMapStyle={isDarkMode ? darkMapStyle : lightMapStyle}
+                    region={
+                        selectedRestaurant
+                            ? {
+                                longitude: selectedRestaurant.longitude,
+                                latitude: selectedRestaurant.latitude,
+                                latitudeDelta: 0.005,
+                                longitudeDelta: 0.005,
+                            }
+                            : location ? {
+                                longitude: location.longitude,
+                                latitude: location.latitude,
+                                latitudeDelta: 0.005,
+                                longitudeDelta: 0.005,
+                            } : undefined
+                    }
+                    style={styles.map}
+                    showsMyLocationButton={false}
+                >
+                    {markers.map((item) =>
+                        <Marker
+                            key={item.id}
+                            coordinate={{
+                                longitude: item.longitude,
+                                latitude: item.latitude,
+                            }}
+                            onDeselect={() => setSelectedMarker(null)}
+                            onSelect={() => setSelectedMarker(item)}
+                        />
+                    )}
 
-            </MapView>
+                </MapView>
+            </Pressable>
 
             {selectedMarker && (
                 <View style={styles.popupWrapper}>
