@@ -97,7 +97,7 @@ export default function Search({route}) {
     if (loading || !location) {
         return (
             <View style={[styles.loading, { backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)" }]}>
-                <Text style={[styles.textLarge, { color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)' }]}>Loading Location</Text>
+                <Text style={[styles.textLarge, { color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)' }]}>Locatie is aan het laden...</Text>
                 <ActivityIndicator size={"large"} />
             </View>
         );
@@ -118,7 +118,7 @@ export default function Search({route}) {
                         selectedRestaurant
                             ? {
                                 longitude: selectedRestaurant.longitude,
-                                latitude: selectedRestaurant.latitude,
+                                latitude: selectedRestaurant.latitude - 0.0015,
                                 latitudeDelta: 0.005,
                                 longitudeDelta: 0.005,
                             }
@@ -214,6 +214,7 @@ const styles = StyleSheet.create({
     map: {
         width: '110%',
         height: '110%',
+        alignSelf: "center",
     },
     topButton: {
         position: "absolute",

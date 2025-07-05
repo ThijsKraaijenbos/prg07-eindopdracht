@@ -90,7 +90,7 @@ export default function Detail({route}) {
     if (loading || !restaurant) {
         return (
             <View style={[styles.loading, { backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)" }]}>
-                <Text style={[styles.textLarge, { color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)' }]}>Loading Restaurant</Text>
+                <Text style={[styles.textLarge, { color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)' }]}>Restaurant is aan het laden...</Text>
                 <ActivityIndicator size={"large"} />
             </View>
         );

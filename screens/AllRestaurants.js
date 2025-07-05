@@ -36,7 +36,7 @@ export default function AllRestaurants() {
     if (loading || !restaurants) {
         return (
             <View style={[styles.loading, { backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)" }]}>
-                <Text style={[styles.textLarge, { color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)' }]}>Loading Restaurants</Text>
+                <Text style={[styles.textLarge, { color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)' }]}>Restaurants zijn aan het laden...</Text>
                 <ActivityIndicator size={"large"} />
             </View>
         );
