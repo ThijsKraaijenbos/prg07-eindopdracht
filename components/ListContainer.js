@@ -14,30 +14,40 @@ export default function ListContainer({data}) {
 				style={styles.borderGradient}
 			/>
 			<View style={[styles.listContainer, {backgroundColor: isDarkMode ? "hsl(0 0% 20%)" : "hsl(0 0% 90%)"}]}>
-				{toggled ? (
-					<Pressable onPress={() => setToggled(false)} style={styles.toggleButton}>
-						<FontAwesome5Icon size={32} color={isDarkMode ? "hsl(45 100% 80%)" : "hsl(225 30% 40%)"} name={"chevron-up"}/>
-					</Pressable>
+				{!data ? (
+					<Text style={[styles.textMedium, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}]}>Geen locaties gevonden</Text>
+				) : (
+					toggled ? (
+							<Pressable onPress={() => setToggled(false)} style={styles.toggleButton}>
+								<FontAwesome5Icon size={32} color={isDarkMode ? "hsl(45 100% 80%)" : "hsl(225 30% 40%)"} name={"chevron-up"}/>
+							</Pressable>
 						) : (
-					<>
-						<Pressable onPress={() => setToggled(true)} style={styles.toggleButton}>
-							<FontAwesome5Icon size={32} color={isDarkMode ? "hsl(45 100% 80%)" : "hsl(225 30% 40%)"} name={"chevron-down"}/>
-						</Pressable>
-						<FlatList
-							scrollEnabled={false}
-							data={data}
-							renderItem={({item}) => <ListItem data={item}/>}
-							keyExtractor={item => item.id}
-						/>
-					</>
+							<>
+								<Pressable onPress={() => setToggled(true)} style={styles.toggleButton}>
+									<FontAwesome5Icon size={32} color={isDarkMode ? "hsl(45 100% 80%)" : "hsl(225 30% 40%)"} name={"chevron-down"}/>
+								</Pressable>
+								<FlatList
+									scrollEnabled={false}
+									data={data}
+									renderItem={({item}) => <ListItem data={item}/>}
+									keyExtractor={item => item.id}
+								/>
+							</>
+					)
 				)}
-
 			</View>
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
+	textMedium: {
+		fontFamily: 'Urbanist_500Medium',
+		fontSize: 24,
+		padding: 8,
+		textAlign: "center"
+	},
+
 	listContainerWrapper: {
 		position: "relative",
 		width: "100%",

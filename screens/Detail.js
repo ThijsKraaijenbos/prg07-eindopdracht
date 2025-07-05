@@ -92,11 +92,11 @@ export default function Detail({route}) {
                                         <Tag key={index} size={16}>{item.tag_name}</Tag>
                                     )}
                                 </View>
-                                <View style={[styles.line, {backgroundColor: isDarkMode ? 'hsl(0 0% 30%)' : 'hsl(0 0% 80%)' }]} />
-                                <View>
-                                    <Text style={[styles.descriptionHeader, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Beschrijving</Text>
-                                    <Text style={[styles.description, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{restaurant.description}</Text>
-                                </View>
+                            </View>
+                            <View style={[styles.line, {backgroundColor: isDarkMode ? 'hsl(0 0% 30%)' : 'hsl(0 0% 80%)' }]} />
+                            <View>
+                                <Text style={[styles.descriptionHeader, {color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>Beschrijving</Text>
+                                <Text style={[styles.description, {color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}]}>{restaurant.description}</Text>
                             </View>
                         </View>
                 </SafeAreaView>
@@ -181,6 +181,7 @@ const styles = StyleSheet.create({
         display: "flex",
         position: "relative",
         flexDirection: "column",
+        gap: 4
     },
     detailWrapper: {
         display: "flex",

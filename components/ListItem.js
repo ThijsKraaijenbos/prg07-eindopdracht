@@ -61,7 +61,6 @@ export default function ListItem({data}) {
 const styles = StyleSheet.create({
 	listItemWrapper: {
 		position: "relative",
-		width: "90%",
 		paddingVertical: 16,
 		alignSelf: "center",
 		margin: -8 //had to add this here because the padding causes insanely wonky behavior and for some reason adds a margin as well

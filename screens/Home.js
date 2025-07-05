@@ -15,6 +15,7 @@ export default function Home() {
     const [timeValue, setTimeValue] = useState("")
     const [nameValue, setNameValue] = useState("")
     const [recommended, setRecommended] = useState([])
+    const [saved, setSaved] = useState([])
     const {isDarkMode} = useContext(DarkModeContext);
 
     async function getRecommendedLocations() {
@@ -46,8 +47,10 @@ export default function Home() {
             async function fetchData() {
                 try {
                     const name = await AsyncStorage.getItem('username');
+                    const saved = await AsyncStorage.getItem('saved_locations');
                     const parsedName = JSON.parse(name)
                     setNameValue(parsedName ? parsedName : "Gebruiker")
+                    setSaved(saved)
                 } catch (e) {
                     console.log(e)
                 }
