@@ -43,7 +43,6 @@ export default function Home() {
         useCallback(() => {
             async function fetchData() {
                 try {
-                    // await AsyncStorage.removeItem("favorites")
                     const name = await AsyncStorage.getItem('username');
                     const favorites = await AsyncStorage.getItem('favorites');
                     const parsedName = JSON.parse(name)
@@ -75,14 +74,12 @@ export default function Home() {
 
             const data = await response.json()
             setFilteredRestaurants(data);
-            // console.log(filteredRestaurants)
         }
         filter()
     }, [filterValue]);
 
 
     //return appropriate message depending on time of day
-    //make sure to add multi language support here if theres time
     function getTime() {
         let hours = new Date().getHours();
         if (hours < 6) {

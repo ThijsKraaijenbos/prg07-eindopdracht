@@ -1,6 +1,6 @@
 import React, {useCallback, useContext, useState, useEffect} from 'react';
 import MapView, {Marker} from 'react-native-maps';
-import {Text, View, StyleSheet, ActivityIndicator, Pressable} from 'react-native';
+import {Text, View, StyleSheet, ActivityIndicator, Pressable, Linking} from 'react-native';
 import darkMapStyle from '../assets/darkMapStyle.json';
 import lightMapStyle from '../assets/lightMapStyle.json';
 
@@ -30,11 +30,12 @@ export default function Search({route}) {
     async function getCurrentLocation() {
         try {
             let { status } = await Location.requestForegroundPermissionsAsync();
+
             if (status !== 'granted') {
                 setErrorMsg('Toegang tot de locatie was niet toegestaan');
-                return;
+            } else {
+                setErrorMsg(null)
             }
-
             const loc = await Location.getCurrentPositionAsync({
                 accuracy: Location.Accuracy.Highest,
             });
@@ -71,10 +72,15 @@ export default function Search({route}) {
 
     }
 
+    //useeffect that gets all locations the first time the page is opened
+    useEffect(() => {
+        getAllLocations()
+    }, []);
+
+    //usefocuseffect that gets your current location every time the map is opened
     useFocusEffect(
         useCallback(() => {
             getCurrentLocation();
-            getAllLocations()
 
             return () => {
                 // When screen is unfocused, clear selection and params
@@ -84,6 +90,8 @@ export default function Search({route}) {
         }, [])
     );
 
+    //useeffect that sets your selected marker to the marker that belongs to the detail screen you came from
+    //this only gets called when you use the button to go to the map from any restaurant's detail screen
     useEffect(() => {
         if (selectedRestaurant === undefined) {
             return
@@ -94,6 +102,21 @@ export default function Search({route}) {
         }
     }, [markers]);
 
+    //loading screen
+    if (errorMsg) {
+        return (
+            <View style={[styles.loading, {gap:16, backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)" }]}>
+                <Text style={[styles.textLarge, {width: "90%", color: isDarkMode ? 'hsl(45 100% 95%)' : 'hsl(45 10% 15%)'}]}>{errorMsg}</Text>
+                <Text style={[styles.textMedium, {width: "90%", textAlign: "center", color: isDarkMode ? 'hsl(45 15% 80%)' : 'hsl(45 5% 25%)'}]}>Geef in uw instellingen toegang tot de locatie. Start daarna de app opnieuw op.</Text>
+                <ButtonComponent onPress={() => Linking.openSettings()} >Open instellingen</ButtonComponent>
+                <ButtonComponent onPress={() => navigation.navigate("BottomTabs", {
+                    screen: "Search"
+                })} >Refresh</ButtonComponent>
+            </View>
+        );
+    }
+
+    //loading screen
     if (loading || !location) {
         return (
             <View style={[styles.loading, { backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)" }]}>
@@ -102,6 +125,7 @@ export default function Search({route}) {
             </View>
         );
     }
+
 
     return (
         <View style={[styles.container, { backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)" }]}>
@@ -118,13 +142,13 @@ export default function Search({route}) {
                         selectedRestaurant
                             ? {
                                 longitude: selectedRestaurant.longitude,
-                                latitude: selectedRestaurant.latitude - 0.0015,
+                                latitude: selectedRestaurant.latitude - 0.0015, // -0.0015 to make the map center a little bit lower so the marker shows up above the popup
                                 latitudeDelta: 0.005,
                                 longitudeDelta: 0.005,
                             }
                             : location ? {
                                 longitude: location.longitude,
-                                latitude: location.latitude,
+                                latitude: location.latitude - 0.0005, // -0.0005 to give the illusion that it's centered (because the bottom tabbar makes it look weird)
                                 latitudeDelta: 0.005,
                                 longitudeDelta: 0.005,
                             } : undefined
@@ -193,7 +217,7 @@ export default function Search({route}) {
 const styles = StyleSheet.create({
     textMedium: {
         fontFamily: 'Urbanist_500Medium',
-        fontSize: 24
+        fontSize: 24,
     },
     textLarge: {
         fontFamily: 'Urbanist_700Bold',

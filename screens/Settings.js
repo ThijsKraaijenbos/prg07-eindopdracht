@@ -7,6 +7,7 @@ import {useFocusEffect} from "@react-navigation/native";
 import {useCallback} from "react"
 import InputField from "../components/InputField";
 import {DarkModeContext} from "../context/DarkModeContext";
+import {LinearGradient} from "expo-linear-gradient";
 
 export default function Settings() {
     const [nameValue, setNameValue] = useState('');
@@ -40,6 +41,10 @@ export default function Settings() {
 
     return (
         <SafeAreaProvider style={{backgroundColor: isDarkMode ? "hsl(0, 0%, 15%)" : "hsl(0, 0%, 85%)", paddingLeft: 16, paddingTop:8, paddingRight: 16}}>
+            <LinearGradient
+                colors={isDarkMode ? ['hsl(0 0% 25%)', 'transparent'] : ['hsl(0 0% 100%)', 'transparent']}
+                style={[StyleSheet.absoluteFill, {height: 136}]}
+            />
             <SafeAreaView style={{flexDirection: 'row'}}>
                 <View style={styles.container}>
                     <InputField

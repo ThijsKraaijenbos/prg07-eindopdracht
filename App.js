@@ -31,6 +31,7 @@ function BottomTabs() {
     const [keyboardVisible, setKeyboardVisible] = useState(false);
     const {isDarkMode} = useContext(DarkModeContext);
 
+    //hide navbar when keyboard opens
     useEffect(() => {
          Keyboard.addListener('keyboardDidShow', () => {
             setKeyboardVisible(true);
