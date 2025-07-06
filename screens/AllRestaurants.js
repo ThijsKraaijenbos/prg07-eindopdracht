@@ -6,10 +6,13 @@ import ListItem from "../components/ListItem";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
 import {LinearGradient} from "expo-linear-gradient";
+import InputField from "../components/InputField";
+import SearchIcon from "../components/icons/SearchIcon";
 
 export default function AllRestaurants() {
     const [restaurants, setRestaurants] = useState([])
     const [loading, setLoading] = useState(true)
+    const [filterValue, setFilterValue] = useState("");
     const {isDarkMode} = useContext(DarkModeContext);
     const navigation = useNavigation()
     const insets = useSafeAreaInsets();
@@ -31,6 +34,25 @@ export default function AllRestaurants() {
             fetchRestaurant()
         }, [])
     );
+
+    const search = async (text) => {
+        setFilterValue(text);
+    }
+
+    useEffect( () => {
+        async function filter(){
+            const response = await fetch(`http://145.24.223.116/api/restaurants?filter=${filterValue}&full_detail=true`, {
+                method: 'GET',
+                headers: {
+                    'Accept' : "application/json"
+                }
+            })
+
+            const data = await response.json()
+            setRestaurants(data);
+        }
+        filter()
+    }, [filterValue]);
 
 
     if (loading || !restaurants) {
@@ -54,13 +76,20 @@ export default function AllRestaurants() {
                     paddingBottom: insets.bottom + 16,
                 }}
                 ListHeaderComponent={
-                    <Pressable style={{ zIndex: 10, marginLeft: 16, marginBottom: 16, marginTop: insets.top }} onPress={navigation.goBack}>
+                <View style={{ zIndex: 10, marginLeft: 16, marginBottom: 8, marginTop: insets.top }}>
+                    <Pressable onPress={navigation.goBack}>
                         <FontAwesome5Icon
                             size={32}
                             color={isDarkMode ? "hsl(45 100% 80%)" : "hsl(225 30% 40%)"}
                             name={"chevron-left"}
                         />
                     </Pressable>
+                        <InputField
+                            onChange={search}
+                            placeholderText={"Zoek een locatie..."}>
+                        <SearchIcon size={36}/>
+                    </InputField>
+                </View>
                 }
                 renderItem={({ item }) => <ListItem data={item} />}
                 keyExtractor={item => item.id}

@@ -64,6 +64,10 @@ export default function Home() {
     }
 
     useEffect( () => {
+        if (filterValue.length === 0) {
+            setFilteredRestaurants([]);
+            return;
+        }
         async function filter(){
             const response = await fetch(`http://145.24.223.116/api/restaurants?filter=${filterValue}&full_detail=true`, {
                 method: 'GET',
